@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="vertical"
+    android:overScrollMode="ifContentScrolls"
+    android:scrollbarStyle="insideOverlay"
+    android:scrollbars="vertical">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:overScrollMode="ifContentScrolls"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="3dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="7dp"
+                        android:text="Recomended For You!!"
+                        android:textColor="@color/secondaryTexe"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/more_weekly_trending"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginVertical="5dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp"
+                        android:src="@drawable/ic_go_right" />
+
+
+                </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/weekly_trending_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <TextView
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="3dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="7dp"
+                        android:text="Popular PlayList"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/secondaryTexe"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/more_popular_playlist"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginVertical="5dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp"
+                        android:src="@drawable/ic_go_right" />
+
+
+                </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/populor_playlist_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="3dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="7dp"
+                        android:text="Popular Songs"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/secondaryTexe"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/more_popular_songs"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginVertical="5dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp"
+                        android:src="@drawable/ic_go_right" />
+
+
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/populor_songs_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="350dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="3dp"
+                        android:fontFamily="@font/poppins_medium"
+                        android:padding="7dp"
+                        android:text="Artist"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/secondaryTexe"
+                        android:textSize="20dp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/more_popular_artist"
+                        android:layout_width="50dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="5dp"
+                        android:layout_marginVertical="5dp"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="10dp"
+                        android:src="@drawable/ic_go_right" />
+
+
+                </LinearLayout>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/populor_artist_recycler"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>

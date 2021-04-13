@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activitys.LoginActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="273dp"
+            android:background="@drawable/blue_bg">
+
+            <ImageView
+                android:layout_width="77dp"
+                android:layout_height="77dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="93dp"
+                android:src="@drawable/logo" />
+        </FrameLayout>
+
+        <ScrollView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:overScrollMode="ifContentScrolls"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="62dp"
+                    android:layout_marginTop="36.7dp"
+                    android:layout_marginRight="62dp"
+                    android:background="@drawable/blue_border_rounded_cornwe">
+
+
+                    <!--            for input fields-->
+                    <EditText
+                        android:id="@+id/signin_user_mail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/username_icon"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/poppins_regular"
+                        android:hint="User Email address"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:paddingLeft="17dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:textColor="@color/primaryText"
+                        android:textColorHint="@color/black"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="12sp" />
+                    <!--            icon-->
+                    <ImageView
+                        android:id="@+id/username_icon"
+                        android:layout_width="14.7dp"
+                        android:layout_height="10.3dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="17dp"
+                        android:src="@drawable/email" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="62dp"
+                    android:layout_marginTop="12.7dp"
+                    android:layout_marginRight="62dp"
+                    android:background="@drawable/blue_border_rounded_cornwe">
+
+
+                    <!--            for input fields-->
+                    <EditText
+                        android:id="@+id/signin_user_pass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_toRightOf="@+id/icon"
+                        android:background="@android:color/transparent"
+                        android:fontFamily="@font/poppins_regular"
+                        android:hint="Enter your Password"
+                        android:inputType="textPassword"
+                        android:maxLength="16"
+                        android:maxLines="1"
+                        android:paddingLeft="17dp"
+                        android:paddingTop="15dp"
+                        android:paddingBottom="15dp"
+                        android:textColor="@color/primaryText"
+                        android:textColorHint="@color/black"
+                        android:textCursorDrawable="@drawable/cursor_color"
+                        android:textSize="12sp" />
+                    <!--            icon-->
+                    <ImageView
+                        android:id="@+id/icon"
+                        android:layout_width="14.7dp"
+                        android:layout_height="10.3dp"
+                        android:layout_centerVertical="true"
+                        android:layout_marginLeft="17dp"
+                        android:src="@drawable/password" />
+
+                </RelativeLayout>
+
+                <Button
+                    android:id="@+id/signInBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="62dp"
+                    android:layout_marginTop="18.7dp"
+                    android:layout_marginRight="62dp"
+                    android:background="@drawable/accent_fill__rounded_color"
+                    android:fontFamily="@font/poppins_medium"
+                    android:gravity="center"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp"
+                    android:text="Login"
+                    android:textColor="@color/white"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Forget Password  ?"
+                    android:textColor="@color/primaryText"
+                    android:textSize="10.5sp" />
+
+                <Button
+                    android:id="@+id/googleLoginBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="62dp"
+                    android:layout_marginTop="18.7dp"
+                    android:layout_marginRight="62dp"
+                    android:background="@drawable/blue_fill__rounded_color"
+                    android:drawableLeft="@drawable/ic_google"
+                    android:elevation="8dp"
+                    android:gravity="center"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp"
+                    android:text="Continue with Google"
+                    android:textColor="@color/white" />
+
+                <TextView
+                    android:id="@+id/toSignUpLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="5dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:gravity="center"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="14dp"
+                    android:text="Create New Account !"
+                    android:textColor="@color/accentTexe"
+                    android:textSize="15sp" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foregroundGravity="center"
+        android:visibility="gone"/>
+</RelativeLayout>

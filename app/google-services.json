@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "257574956959",
+    "project_id": "musicrewind-16e8f",
+    "storage_bucket": "musicrewind-16e8f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:257574956959:android:be67f90f686ebfd98457aa",
+        "android_client_info": {
+          "package_name": "com.digital.rewind"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "257574956959-t2ckn2klt9onhmt99u52ta8aegq2ndjt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzfwQv30lPfR1i441ZfoHDRzRFVzeVnm0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "257574956959-t2ckn2klt9onhmt99u52ta8aegq2ndjt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
