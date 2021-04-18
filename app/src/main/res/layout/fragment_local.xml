@@ -22,35 +22,6 @@
             android:background="@android:color/transparent"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Playlist"
-                    android:textAlignment="center" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/local_playlist_recycler"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Songs"
-                    android:textAlignment="center" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/local_songs_recycler"
@@ -58,7 +29,6 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
-            </LinearLayout>
 
 
         </LinearLayout>

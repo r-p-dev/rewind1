@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -15,9 +16,14 @@ import com.digital.rewind.itemAdapters.itemAdapterHomePopularPlaylist;
 import com.digital.rewind.itemAdapters.itemAdapterHomePopularSongs;
 import com.digital.rewind.itemAdapters.itemAdapterHomeRecomended;
 import com.digital.rewind.modals.modalHomePopularArtist;
-import com.digital.rewind.modals.modalHomePopularPlaylist;
-import com.digital.rewind.modals.modalHomePopularSongs;
-import com.digital.rewind.modals.modalHomeRecomended;
+import com.digital.rewind.modals.modalPlaylist;
+import com.digital.rewind.modals.modalSongs;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +44,14 @@ public class HomeFragment extends Fragment {
     RecyclerView pp_recyclerView;
     RecyclerView ps_recyclerView;
     RecyclerView pa_recyclerView;
-    List<modalHomeRecomended> wt_itemlist;
-    List<modalHomePopularPlaylist> pp_itemlist;
-    List<modalHomePopularSongs> ps_itemlist;
+    List<modalSongs> wt_itemlist;
+    List<modalPlaylist> pp_itemlist;
+    List<modalSongs> ps_itemlist;
     List<modalHomePopularArtist> pa_itemlist;
     ImageView morePlaylist, moreSongs;
+    itemAdapterHomePopularSongs hp_songadapter;
+    itemAdapterHomePopularPlaylist hp_playlistadapter;
+    itemAdapterHomeRecomended wt_songadapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -143,58 +152,117 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private List<modalHomePopularSongs> ps_initData() {
+    private List<modalSongs> ps_initData() {
         ps_itemlist = new ArrayList<>();
-        ps_itemlist.add(new modalHomePopularSongs(R.drawable.blue_bg, "namaamasna"));
-        ps_itemlist.add(new modalHomePopularSongs(R.drawable.blue_bg, "namaamasna"));
-        ps_itemlist.add(new modalHomePopularSongs(R.drawable.blue_bg, "namaamasna"));
-        ps_itemlist.add(new modalHomePopularSongs(R.drawable.blue_bg, "namaamasna"));
-        ps_itemlist.add(new modalHomePopularSongs(R.drawable.blue_bg, "namaamasna"));
-        ps_itemlist.add(new modalHomePopularSongs(R.drawable.blue_bg, "namaamasna"));
-        ps_itemlist.add(new modalHomePopularSongs(R.drawable.blue_bg, "namaamasna"));
-        ps_itemlist.add(new modalHomePopularSongs(R.drawable.blue_bg, "namaamasna"));
-        ps_itemlist.add(new modalHomePopularSongs(R.drawable.blue_bg, "namaamasna"));
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Songs");
+        Query qury= databaseReference.limitToLast(12);
+        qury.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                ps_itemlist.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    modalSongs song = ds.getValue(modalSongs.class);
+                    ps_itemlist.add(song);
+                }
+                hp_songadapter = new itemAdapterHomePopularSongs(ps_itemlist);
+                ps_recyclerView.setAdapter(hp_songadapter);
+                hp_songadapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         return ps_itemlist;
 
     }
 
-    private List<modalHomePopularPlaylist> pp_initData() {
+    private List<modalPlaylist> pp_initData() {
         pp_itemlist = new ArrayList<>();
-        pp_itemlist.add(new modalHomePopularPlaylist(R.drawable.mumu, "how do you do"));
-        pp_itemlist.add(new modalHomePopularPlaylist(R.drawable.headphone, "how  do"));
-        pp_itemlist.add(new modalHomePopularPlaylist(R.drawable.mumu, "how do you do"));
-        pp_itemlist.add(new modalHomePopularPlaylist(R.drawable.headphone, "how  do"));
-        pp_itemlist.add(new modalHomePopularPlaylist(R.drawable.mumu, "how do you do"));
-        pp_itemlist.add(new modalHomePopularPlaylist(R.drawable.headphone, "how  do"));
-        pp_itemlist.add(new modalHomePopularPlaylist(R.drawable.mumu, "how do you do"));
-        pp_itemlist.add(new modalHomePopularPlaylist(R.drawable.headphone, "how  do"));
-        pp_itemlist.add(new modalHomePopularPlaylist(R.drawable.mumu, "how do you do"));
-        pp_itemlist.add(new modalHomePopularPlaylist(R.drawable.headphone, "how  do"));
-        pp_itemlist.add(new modalHomePopularPlaylist(R.drawable.mumu, "how do you do"));
-        pp_itemlist.add(new modalHomePopularPlaylist(R.drawable.headphone, "how  do"));
-        pp_itemlist.add(new modalHomePopularPlaylist(R.drawable.mumu, "how do you do"));
-        pp_itemlist.add(new modalHomePopularPlaylist(R.drawable.headphone, "how  do"));
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Playlist/RecomendedPlaylist");
+        Query qury= databaseReference.limitToLast(12);
+        qury.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                pp_itemlist.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Iterable<DataSnapshot> list = ds.getChildren();
+                    for (DataSnapshot temp : list) {
+                        String dbkey= temp.getKey();
+                        Query db =FirebaseDatabase.getInstance().getReference("Playlist/Shared").child(dbkey);
+                        db.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                modalPlaylist playlistDetail=snapshot.getValue(modalPlaylist.class);
+                                pp_itemlist.add(playlistDetail);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }
+                hp_playlistadapter = new itemAdapterHomePopularPlaylist(pp_itemlist);
+                pp_recyclerView.setAdapter(hp_playlistadapter);
+                hp_playlistadapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         return pp_itemlist;
     }
 
-    private List<modalHomeRecomended> wt_initData() {
-        wt_itemlist = new ArrayList<>();
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.mumu, "this is my logo"));
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.headphone, "this is my fb"));
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.ic_download, "this is my d"));
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.logo, "this is my logo"));
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.ic_facebook, "this is my fb"));
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.ic_download, "this is my d"));
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.logo, "this is my logo"));
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.ic_facebook, "this is my fb"));
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.ic_download, "this is my d"));
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.logo, "this is my logo"));
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.ic_facebook, "this is my fb"));
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.ic_download, "this is my d"));
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.logo, "this is my logo"));
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.ic_facebook, "this is my fb"));
-        wt_itemlist.add(new modalHomeRecomended(R.drawable.ic_download, "this is my d"));
+    private List<modalSongs> wt_initData() {
+        wt_itemlist = new ArrayList<modalSongs>();
 
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("RecomendedSongs");
+        Query qury= databaseReference.limitToLast(12).orderByKey();
+        qury.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                wt_itemlist.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    Iterable<DataSnapshot> list = ds.getChildren();
+                    for (DataSnapshot temp : list) {
+                        String dbkey= temp.getKey();
+                        Query db =FirebaseDatabase.getInstance().getReference("Songs").child(dbkey);
+                        db.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                modalSongs songlistDetail=snapshot.getValue(modalSongs.class);
+                                wt_itemlist.add(songlistDetail);
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+                    }
+                }
+                wt_songadapter = new itemAdapterHomeRecomended(wt_itemlist);
+                wt_recyclerView.setAdapter(wt_songadapter);
+                wt_songadapter.notifyDataSetChanged();
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
         return wt_itemlist;
     }

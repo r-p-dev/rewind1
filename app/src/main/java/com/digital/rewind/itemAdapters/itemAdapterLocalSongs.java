@@ -1,23 +1,24 @@
 package com.digital.rewind.itemAdapters;
 
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
+import com.digital.rewind.fragments.LocalFragment;
 import com.digital.rewind.modals.modalLocalSongs;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class itemAdapterLocalSongs extends RecyclerView.Adapter<itemAdapterLocalSongs.ViewHolder> {
@@ -62,15 +63,31 @@ public class itemAdapterLocalSongs extends RecyclerView.Adapter<itemAdapterLocal
         com.google.android.material.imageview.ShapeableImageView local_song_image;
         TextView local_song_title, local_song_art_name, local_song_length;
         ImageView local_song_option;
-
+        RelativeLayout local_song_item;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             local_song_image = itemView.findViewById(R.id.local_song_image);
             local_song_title = itemView.findViewById(R.id.local_song_title);
             local_song_art_name = itemView.findViewById(R.id.local_song_art_name);
             local_song_length = itemView.findViewById(R.id.local_song_length);
-
+            local_song_item=itemView.findViewById(R.id.local_song_item);
             local_song_option = itemView.findViewById(R.id.local_songs_song_option_btn);
+
+
+            local_song_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ArrayList<List<modalLocalSongs>> jcAudios = new ArrayList<>();
+                    jcAudios.add(local_songs_itemList);
+//                    jcAudios.add(JcAudio.createFromAssets("Asset audio", "audio.mp3"));
+//
+//                    jcAudios.add(JcAudio.createFromRaw("Raw audio", R.raw.audio));
+//
+//                    LocalFragment.initPlaylist(jcAudios);
+                }
+            });
+
+
 
             local_song_option.setOnClickListener(this);
         }

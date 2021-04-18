@@ -4,13 +4,23 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
 import com.digital.rewind.itemAdapters.itemAdapterPlaylist;
+import com.digital.rewind.itemAdapters.itemAdapterSongs;
 import com.digital.rewind.modals.modalPlaylist;
+import com.digital.rewind.modals.modalSongs;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +41,11 @@ public class PlayListFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    itemAdapterPlaylist playlistAdapter;
+
+
+
+
     public PlayListFragment() {
         // Required empty public constructor
     }
@@ -69,25 +84,32 @@ public class PlayListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_play_list, container, false);
         playlistRecycler = view.findViewById(R.id.playlist_recycler);
         //init data
-        playlistRecycler.setAdapter(new itemAdapterPlaylist(playlist_initData()));
+        playlist_initData();
         return view;
     }
 
-    private List<modalPlaylist> playlist_initData() {
+    private void playlist_initData() {
         playlistItemList = new ArrayList<>();
-        playlistItemList.add(new modalPlaylist(R.drawable.mumu, "12", "name of playlist 1"));
-        playlistItemList.add(new modalPlaylist(R.drawable.headphone, "1", "name of playlist 1"));
-        playlistItemList.add(new modalPlaylist(R.drawable.mumu, "0", "name of playlist 1"));
-        playlistItemList.add(new modalPlaylist(R.drawable.headphone, "122", "name of playlist 1"));
-        playlistItemList.add(new modalPlaylist(R.drawable.green_fill__rounded_color, "12", "name of playlist 1"));
-        playlistItemList.add(new modalPlaylist(R.drawable.mumu, "120", "name of playlist 1name of playlist 1"));
-        playlistItemList.add(new modalPlaylist(R.drawable.blue_bg, "112", "name of playlist 1"));
-        playlistItemList.add(new modalPlaylist(R.drawable.mumu, "129", "name of playlist 1"));
-        playlistItemList.add(new modalPlaylist(R.drawable.headphone, "2", "name of playlist 1"));
-        playlistItemList.add(new modalPlaylist(R.drawable.ic_home, "12", "name of playlist 1"));
-        playlistItemList.add(new modalPlaylist(R.drawable.ic_closex, "102", "name of playlist 1"));
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Playlist/Shared");
+        Query squry=databaseReference.limitToLast(70);
+        squry.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                playlistItemList.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                   modalPlaylist song = ds.getValue(modalPlaylist.class);
+                    playlistItemList.add(song);
 
 
-        return playlistItemList;
+                }
+                playlistAdapter = new itemAdapterPlaylist( playlistItemList);
+                playlistRecycler.setAdapter(playlistAdapter);
+                playlistAdapter.notifyDataSetChanged();
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "FAILED!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 }

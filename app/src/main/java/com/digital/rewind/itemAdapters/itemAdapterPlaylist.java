@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
 import com.digital.rewind.modals.modalPlaylist;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -31,9 +32,18 @@ public class itemAdapterPlaylist extends RecyclerView.Adapter<itemAdapterPlaylis
 
     @Override
     public void onBindViewHolder(@NonNull itemAdapterPlaylist.ViewHolder holder, int position) {
-        holder.playlistImage.setImageResource(playlistItemList.get(position).getPlaylistImage());
-        holder.playlistNoOfSongs.setText(playlistItemList.get(position).getNoOfSongsInPlaylist());
-        holder.playlistName.setText(playlistItemList.get(position).getNameOfPlaylist());
+        Picasso.get().load(playlistItemList.get(position).getPlaylistimage()).into(holder.playlistImage);
+        holder.playlistName.setText(playlistItemList.get(position).getPlaylistName());
+
+        if (playlistItemList.get(position).getSongs()==null){
+            holder.playlistNoOfSongs.setText("No");
+
+        }else {
+            List count=playlistItemList.get(position).getSongs();
+            String numb= String.valueOf(count.size());
+            holder.playlistNoOfSongs.setText(numb);
+        }
+
 
     }
 

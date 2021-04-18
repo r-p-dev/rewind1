@@ -1,23 +1,28 @@
 package com.digital.rewind.fragments;
 
-import android.media.MediaMetadataRetriever;
+import android.icu.text.Transliterator;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
 import com.digital.rewind.itemAdapters.itemAdapterSongs;
 import com.digital.rewind.modals.modalSongs;
+import com.example.jean.jcplayer.model.JcAudio;
+import com.example.jean.jcplayer.view.JcPlayerView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -38,12 +43,11 @@ public class SongsFragment extends Fragment {
     private static final String TAG = "songfragment";
     RecyclerView songsRecycler;
     List<modalSongs> songsItemList;
-    ArrayList<String> arrayListSongsName = new ArrayList<>();
-    ArrayList<String> arrayListSongsUrl = new ArrayList<>();
-    ArrayAdapter<String> arrayAdapter;
+    itemAdapterSongs songadapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
     public SongsFragment() {
         // Required empty public constructor
     }
@@ -72,6 +76,7 @@ public class SongsFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -79,50 +84,42 @@ public class SongsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
         View view = inflater.inflate(R.layout.fragment_songs, container, false);
         songsRecycler = view.findViewById(R.id.songs_recycler);
-        //initData();
-        songsRecycler.setAdapter(new itemAdapterSongs(songs_initData()));
+
+       songs_initData();
 
         return view;
     }
 
-    private List<modalSongs> songs_initData() {
+    private void songs_initData() {
         songsItemList = new ArrayList<>();
-        String artist = "artist name";
-        int image = R.drawable.mumu;
-        String length = "02:22";
-        String name = "nama name name ";
-        // Read from the database
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("Songs");
-        myRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Songs");
+        Query squry=databaseReference.limitToLast(70);
+        squry.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-//                    modalSongs value = ds.getValue(modalSongs.class);
-//                   String name =value.getSongName().toString();
-                    songsItemList.add(new modalSongs(image, name, artist, length));
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                songsItemList.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    modalSongs song = ds.getValue(modalSongs.class);
+                    songsItemList.add(song);
+
+
                 }
+                songadapter = new itemAdapterSongs( songsItemList);
+                songsRecycler.setAdapter(songadapter);
+                songadapter.notifyDataSetChanged();
+                if (songsItemList.isEmpty()) {
 
+                }
+                else {
+                }
             }
-
             @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "FAILED!", Toast.LENGTH_SHORT).show();
             }
         });
-        return songsItemList;
     }
-
-    private byte[] getAlbumArt(String uri) {
-        MediaMetadataRetriever retriver = new MediaMetadataRetriever();
-        retriver.setDataSource(uri);
-        byte[] art = retriver.getEmbeddedPicture();
-        retriver.release();
-        return art;
-    }
-
 
 }

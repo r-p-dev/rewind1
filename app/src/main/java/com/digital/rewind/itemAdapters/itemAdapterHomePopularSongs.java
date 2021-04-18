@@ -9,14 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
-import com.digital.rewind.modals.modalHomePopularSongs;
+import com.digital.rewind.modals.modalSongs;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class itemAdapterHomePopularSongs extends RecyclerView.Adapter<itemAdapterHomePopularSongs.ViewHolder> {
-    List<modalHomePopularSongs> ps_itemList;
+    List<modalSongs> ps_itemList;
 
-    public itemAdapterHomePopularSongs(List<modalHomePopularSongs> ps_itemList) {
+    public itemAdapterHomePopularSongs(List<modalSongs> ps_itemList) {
         this.ps_itemList = ps_itemList;
 
     }
@@ -31,8 +32,10 @@ public class itemAdapterHomePopularSongs extends RecyclerView.Adapter<itemAdapte
 
     @Override
     public void onBindViewHolder(@NonNull itemAdapterHomePopularSongs.ViewHolder holder, int position) {
-        holder.ps_imageitem.setImageResource(ps_itemList.get(position).getImage());
-        holder.ps_textitem.setText(ps_itemList.get(position).getName());
+        Picasso.get().load(ps_itemList.get(position).getImageUrl()).into(holder.ps_imageitem);
+//
+//        holder.ps_imageitem.setImageResource(R.drawable.headphone);
+        holder.ps_textitem.setText(ps_itemList.get(position).getSongName());
     }
 
     @Override

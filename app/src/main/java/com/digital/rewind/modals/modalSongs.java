@@ -1,23 +1,17 @@
 package com.digital.rewind.modals;
 
 public class modalSongs {
-    int songImage;
-    String songName, songArt, songLength;
+    String songName,songUrl,imageUrl,songArtist,songDuration;
 
-    public modalSongs(int songImage, String songName, String songArt, String songLength) {
-        this.songImage = songImage;
+    public modalSongs() {
+    }
+
+    public modalSongs(String songName, String songUrl, String imageUrl, String songArtist, String songDuration) {
         this.songName = songName;
-        this.songArt = songArt;
-        this.songLength = songLength;
-    }
-
-
-    public int getSongImage() {
-        return songImage;
-    }
-
-    public void setSongImage(int songImage) {
-        this.songImage = songImage;
+        this.songUrl = songUrl;
+        this.imageUrl = imageUrl;
+        this.songArtist = songArtist;
+        this.songDuration = songDuration;
     }
 
     public String getSongName() {
@@ -28,19 +22,36 @@ public class modalSongs {
         this.songName = songName;
     }
 
-    public String getSongArt() {
-        return songArt;
+    public String getSongUrl() {
+        return songUrl;
     }
 
-    public void setSongArt(String songArt) {
-        this.songArt = songArt;
+    public void setSongUrl(String songUrl) {
+        this.songUrl = songUrl;
     }
 
-    public String getSongLength() {
-        return songLength;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setSongLength(String songLength) {
-        this.songLength = songLength;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getSongArtist() {
+        return songArtist;
+    }
+
+    public void setSongArtist(String songArtist) {
+        this.songArtist = songArtist;
+    }
+
+    public String getSongDuration() {
+        return songDuration;
+    }
+
+    public void setSongDuration(String songDuration) {
+        this.songDuration = songDuration;
     }
 }
+

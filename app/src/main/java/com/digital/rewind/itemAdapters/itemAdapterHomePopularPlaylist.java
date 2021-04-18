@@ -9,14 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
-import com.digital.rewind.modals.modalHomePopularPlaylist;
+import com.digital.rewind.modals.modalPlaylist;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class itemAdapterHomePopularPlaylist extends RecyclerView.Adapter<itemAdapterHomePopularPlaylist.ViewHolder> {
-    List<modalHomePopularPlaylist> pp_itemList;
+    List<modalPlaylist> pp_itemList;
 
-    public itemAdapterHomePopularPlaylist(List<modalHomePopularPlaylist> pp_itemList) {
+    public itemAdapterHomePopularPlaylist(List<modalPlaylist> pp_itemList) {
         this.pp_itemList = pp_itemList;
 
     }
@@ -31,8 +32,8 @@ public class itemAdapterHomePopularPlaylist extends RecyclerView.Adapter<itemAda
 
     @Override
     public void onBindViewHolder(@NonNull itemAdapterHomePopularPlaylist.ViewHolder holder, int position) {
-        holder.pp_imageitem.setImageResource(pp_itemList.get(position).getImage());
-        holder.pp_textitem.setText(pp_itemList.get(position).getName());
+        Picasso.get().load(pp_itemList.get(position).getPlaylistimage()).into(holder.pp_imageitem);
+        holder.pp_textitem.setText(pp_itemList.get(position).getPlaylistName());
     }
 
     @Override

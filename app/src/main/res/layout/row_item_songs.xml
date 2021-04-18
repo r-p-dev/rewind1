@@ -25,7 +25,6 @@
             android:clickable="true"
             android:cropToPadding="false"
             android:scaleType="centerCrop"
-            android:src="@drawable/headphone"
             app:shapeAppearanceOverlay="@style/image_rounded_corner" />
 
     </LinearLayout>

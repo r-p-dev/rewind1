@@ -23,5 +23,33 @@
             android:orientation="vertical"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
     </ScrollView>
+    <com.example.jean.jcplayer.view.JcPlayerView
+        android:id="@+id/jcplayer_song"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:gravity="center|bottom"
+        android:visibility="gone"
+        android:padding="10dp"
+        app:next_icon="@drawable/ic_next"
+        app:next_icon_color="@color/accent"
+        app:pause_icon="@drawable/ic_pause"
+        app:pause_icon_color="@color/accent"
+        app:play_icon="@drawable/ic_play"
+        app:play_icon_color="@color/accent"
+        app:previous_icon="@drawable/ic_previous"
+        app:previous_icon_color="@color/accent"
+        app:progress_color="@color/accent"
+        app:random_icon_color="@color/accent"
+        app:repeat_icon="@drawable/ic_repeate"
+        app:repeat_icon_color="@color/accent"
+        app:seek_bar_color="@color/accentTexe"
+        app:text_audio_current_duration_color="@color/primaryText"
+        app:text_audio_duration_color="@color/primaryText"
+        app:text_audio_title_color="@color/secondaryTexe" />
 
 </RelativeLayout>

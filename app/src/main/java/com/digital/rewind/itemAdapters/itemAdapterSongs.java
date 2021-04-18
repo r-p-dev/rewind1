@@ -1,5 +1,7 @@
 package com.digital.rewind.itemAdapters;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -14,7 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
 import com.digital.rewind.modals.modalSongs;
+import com.example.jean.jcplayer.model.JcAudio;
+import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class itemAdapterSongs extends RecyclerView.Adapter<itemAdapterSongs.ViewHolder> {
@@ -35,11 +42,20 @@ public class itemAdapterSongs extends RecyclerView.Adapter<itemAdapterSongs.View
 
     @Override
     public void onBindViewHolder(@NonNull itemAdapterSongs.ViewHolder holder, int position) {
-        holder.songs_song_image.setImageResource(songs_itemList.get(position).getSongImage());
-        holder.songs_song_title.setText(songs_itemList.get(position).getSongName());
-        holder.songs_song_art_name.setText(songs_itemList.get(position).getSongArt());
-        holder.songs_song_length.setText(songs_itemList.get(position).getSongLength());
 
+        Picasso.get().load(songs_itemList.get(position).getImageUrl()).into(holder.songs_song_image);
+//        holder.songs_song_image.setImageBitmap(getImage(songs_itemList.get(position).getImageUrl()));
+
+        holder.songs_song_title.setText(songs_itemList.get(position).getSongName());
+        holder.songs_song_art_name.setText(songs_itemList.get(position).getSongArtist());
+        holder.songs_song_length.setText(songs_itemList.get(position).getSongDuration());
+
+    }
+
+        public Bitmap getImage(String url) throws IOException {
+            URL imageUrl = new URL(url);
+            Bitmap bmp = BitmapFactory.decodeStream(imageUrl.openConnection().getInputStream());
+            return bmp;
     }
 
     @Override
@@ -80,6 +96,10 @@ public class itemAdapterSongs extends RecyclerView.Adapter<itemAdapterSongs.View
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.option_menu_play:
+                    ArrayList<JcAudio> jcAudios = new ArrayList<>();
+
+                    jcAudios.add(JcAudio.createFromURL(
+                            songs_itemList.get(getAdapterPosition()).getSongName(),songs_itemList.get(getAdapterPosition()).getSongUrl()));
                     Toast.makeText(itemView.getContext(), "play option clicked @ in:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
                     return true;
                 case R.id.option_menu_playnext:
@@ -93,4 +113,5 @@ public class itemAdapterSongs extends RecyclerView.Adapter<itemAdapterSongs.View
             }
         }
     }
+
 }

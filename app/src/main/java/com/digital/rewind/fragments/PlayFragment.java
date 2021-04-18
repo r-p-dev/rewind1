@@ -64,14 +64,6 @@ public class PlayFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_play, container, false);
 
         jcplayerView = view.findViewById(R.id.jcplayer);
-        // initializing views
-
-//        play = view.findViewById(R.id.player_play);
-//        prev = view.findViewById(R.id.player_previous);
-//        next = view.findViewById(R.id.player_next);
-//        songTitle = view.findViewById(R.id.player_song_title);
-//        imageView = view.findViewById(R.id.player_image);
-//        mSeekBarTime = view.findViewById(R.id.player_seekbar);
 
         return view;
     }

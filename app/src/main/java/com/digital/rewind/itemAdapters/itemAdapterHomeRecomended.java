@@ -9,14 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
-import com.digital.rewind.modals.modalHomeRecomended;
+import com.digital.rewind.modals.modalSongs;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class itemAdapterHomeRecomended extends RecyclerView.Adapter<itemAdapterHomeRecomended.ViewHolder> {
-    List<modalHomeRecomended> wt_itemList;
+    List<modalSongs> wt_itemList;
 
-    public itemAdapterHomeRecomended(List<modalHomeRecomended> wt_itemList) {
+    public itemAdapterHomeRecomended(List<modalSongs> wt_itemList) {
         this.wt_itemList = wt_itemList;
 
     }
@@ -31,8 +32,8 @@ public class itemAdapterHomeRecomended extends RecyclerView.Adapter<itemAdapterH
 
     @Override
     public void onBindViewHolder(@NonNull itemAdapterHomeRecomended.ViewHolder holder, int position) {
-        holder.imageitem.setImageResource(wt_itemList.get(position).getImage());
-        holder.textitem.setText(wt_itemList.get(position).getName());
+        Picasso.get().load(wt_itemList.get(position).getImageUrl()).into(holder.imageitem);
+        holder.textitem.setText(wt_itemList.get(position).getSongName());
     }
 
     @Override

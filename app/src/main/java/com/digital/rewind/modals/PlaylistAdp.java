@@ -1,15 +1,16 @@
 package com.digital.rewind.modals;
 
+import java.lang.reflect.Array;
 import java.util.List;
 
-public class modalPlaylist {
+public class PlaylistAdp {
     String playlistimage,playlistName,playlistCreator;
-    List<String> songs;
+   List<String> songs;
 
-    public modalPlaylist() {
+    public PlaylistAdp() {
     }
 
-    public modalPlaylist(String playlistimage, String playlistName, String playlistCreator, List<String> songs) {
+    public PlaylistAdp(String playlistimage, String playlistName, String playlistCreator, List<String> songs) {
         this.playlistimage = playlistimage;
         this.playlistName = playlistName;
         this.playlistCreator = playlistCreator;
