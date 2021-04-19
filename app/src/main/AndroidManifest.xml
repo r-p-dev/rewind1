@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Rewind">
-        <activity android:name=".activitys.NewPlaylistActivity"></activity>
+        <activity android:name=".activitys.PlayerActivity"></activity>
+        <activity android:name=".activitys.NewPlaylistActivity" />
         <activity android:name=".activitys.UploadActivity" />
         <activity android:name=".activitys.SplashActivity">
             <intent-filter>

@@ -9,15 +9,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
+import com.digital.rewind.modals.modalHomeRecomendedSongs;
 import com.digital.rewind.modals.modalSongs;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class itemAdapterHomeRecomended extends RecyclerView.Adapter<itemAdapterHomeRecomended.ViewHolder> {
-    List<modalSongs> wt_itemList;
+    List<modalHomeRecomendedSongs> wt_itemList;
 
-    public itemAdapterHomeRecomended(List<modalSongs> wt_itemList) {
+    public itemAdapterHomeRecomended(List<modalHomeRecomendedSongs> wt_itemList) {
         this.wt_itemList = wt_itemList;
 
     }

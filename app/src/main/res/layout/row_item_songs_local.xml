@@ -6,6 +6,7 @@
     android:layout_height="60dp"
     android:layout_marginHorizontal="2dp"
     android:layout_marginVertical="2dp"
+    android:onClick="PlayLocalSong"
     android:paddingHorizontal="2dp"
     android:paddingVertical="2dp">
 

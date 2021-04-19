@@ -39,6 +39,10 @@ import com.digital.rewind.modals.modalLocalSongs;
 import com.digital.rewind.modals.modalPlaylist;
 import com.digital.rewind.modals.modalSongs;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
+import com.example.jean.jcplayer.JcPlayerManagerListener;
+import com.example.jean.jcplayer.general.JcStatus;
+import com.example.jean.jcplayer.model.JcAudio;
+import com.example.jean.jcplayer.service.JcPlayerService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -65,12 +69,14 @@ import com.karumi.dexter.listener.single.PermissionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, JcPlayerManagerListener {
     private static final String TAG = "mainActivity";
     MeowBottomNavigation bottomNavigation;
     ImageView setting_btn;
     FloatingActionButton fab;
     boolean playStatus = true;
+    ArrayList<JcAudio> jcAudios = new ArrayList<>();
+
     // TODO: Rename and change types of parame
 
 
@@ -81,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //assigning buttom nav variable
         bottomNavigation = findViewById(R.id.bottom_navigation);
         fab = findViewById(R.id.fab);
-        fab.setOnClickListener(this);
         // adding menu items
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_home));
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_music));
@@ -150,6 +155,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
     }
 
 
@@ -161,19 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 .commit();
     }
 
-    @Override
-    public void onClick(View v) {
-        FloatingActionButton fav = findViewById(R.id.fab);
-        if (playStatus == false) {
-            fav.setImageResource(R.drawable.ic_play);
-            playStatus = true;
-        } else if (playStatus == true) {
-            fav.setImageResource(R.drawable.ic_pause);
-            playStatus = false;
-        }
 
-
-    }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
@@ -204,7 +202,60 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    @Override
+    public void onCompletedAudio() {
 
+    }
+
+    @Override
+    public void onContinueAudio(JcStatus jcStatus) {
+
+    }
+
+    @Override
+    public void onJcpError(Throwable throwable) {
+
+    }
+
+    @Override
+    public void onPaused(JcStatus jcStatus) {
+        fab.setImageResource(R.drawable.ic_play);
+        playStatus=false;
+
+    }
+
+    @Override
+    public void onPlaying(JcStatus jcStatus) {
+        fab.setImageResource(R.drawable.ic_pause);
+        playStatus=true;
+
+    }
+
+    @Override
+    public void onPreparedAudio(JcStatus jcStatus) {
+
+    }
+
+    @Override
+    public void onStopped(JcStatus jcStatus) {
+        fab.setImageResource(R.drawable.ic_play);
+
+    }
+
+    @Override
+    public void onTimeChanged(JcStatus jcStatus) {
+
+    }
+
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) {
+
+    }
+
+    @Override
+    public void onClick(View v) {
+
+    }
 
 }
 

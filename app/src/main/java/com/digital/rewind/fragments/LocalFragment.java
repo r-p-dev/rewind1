@@ -7,8 +7,11 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.RelativeLayout;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
@@ -41,6 +44,8 @@ public class LocalFragment extends Fragment {
     private String mParam1;
     private String mParam2;
     private boolean checkPermission = false;
+    RelativeLayout local_song_item;
+
     public LocalFragment() {
         // Required empty public constructor
     }
@@ -79,9 +84,12 @@ public class LocalFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_local, container, false);
         localSongsRecycler = view.findViewById(R.id.local_songs_recycler);
-//init data
+        local_song_item=view.findViewById(R.id.local_song_item);
 
-        localSongsRecycler.setAdapter(new itemAdapterLocalSongs(localSongs_initData()));
+
+//init data
+        List<modalLocalSongs> data = localSongs_initData();
+        localSongsRecycler.setAdapter(new itemAdapterLocalSongs(getContext(),data));
 
 
         return view;

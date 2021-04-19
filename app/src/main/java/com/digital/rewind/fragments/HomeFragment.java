@@ -16,6 +16,7 @@ import com.digital.rewind.itemAdapters.itemAdapterHomePopularPlaylist;
 import com.digital.rewind.itemAdapters.itemAdapterHomePopularSongs;
 import com.digital.rewind.itemAdapters.itemAdapterHomeRecomended;
 import com.digital.rewind.modals.modalHomePopularArtist;
+import com.digital.rewind.modals.modalHomeRecomendedSongs;
 import com.digital.rewind.modals.modalPlaylist;
 import com.digital.rewind.modals.modalSongs;
 import com.google.firebase.database.DataSnapshot;
@@ -44,7 +45,7 @@ public class HomeFragment extends Fragment {
     RecyclerView pp_recyclerView;
     RecyclerView ps_recyclerView;
     RecyclerView pa_recyclerView;
-    List<modalSongs> wt_itemlist;
+    List<modalHomeRecomendedSongs> wt_itemlist;
     List<modalPlaylist> pp_itemlist;
     List<modalSongs> ps_itemlist;
     List<modalHomePopularArtist> pa_itemlist;
@@ -85,6 +86,7 @@ public class HomeFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
@@ -107,7 +109,7 @@ public class HomeFragment extends Fragment {
 //initData();
         wt_recyclerView.setAdapter(new itemAdapterHomeRecomended(wt_initData()));
         pp_recyclerView.setAdapter(new itemAdapterHomePopularPlaylist(pp_initData()));
-        ps_recyclerView.setAdapter(new itemAdapterHomePopularSongs(ps_initData()));
+        ps_initData();
         pa_recyclerView.setAdapter(new itemAdapterHomePopularArtist(pa_initData()));
         morePlaylist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +167,7 @@ public class HomeFragment extends Fragment {
                     modalSongs song = ds.getValue(modalSongs.class);
                     ps_itemlist.add(song);
                 }
-                hp_songadapter = new itemAdapterHomePopularSongs(ps_itemlist);
+                hp_songadapter = new itemAdapterHomePopularSongs(getContext(),ps_itemlist);
                 ps_recyclerView.setAdapter(hp_songadapter);
                 hp_songadapter.notifyDataSetChanged();
 
@@ -183,18 +185,22 @@ public class HomeFragment extends Fragment {
 
     private List<modalPlaylist> pp_initData() {
         pp_itemlist = new ArrayList<>();
-
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Playlist/RecomendedPlaylist");
         Query qury= databaseReference.limitToLast(12);
         qury.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+System.out.println(snapshot);
+
                 pp_itemlist.clear();
                 for (DataSnapshot ds : snapshot.getChildren()) {
+System.out.println(ds);
+
                     Iterable<DataSnapshot> list = ds.getChildren();
                     for (DataSnapshot temp : list) {
                         String dbkey= temp.getKey();
-                        Query db =FirebaseDatabase.getInstance().getReference("Playlist/Shared").child(dbkey);
+ System.out.println(dbkey);
+                        Query db =FirebaseDatabase.getInstance().getReference("Playlist/Shared/"+dbkey);
                         db.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -224,34 +230,34 @@ public class HomeFragment extends Fragment {
         return pp_itemlist;
     }
 
-    private List<modalSongs> wt_initData() {
-        wt_itemlist = new ArrayList<modalSongs>();
-
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("RecomendedSongs");
-        Query qury= databaseReference.limitToLast(12).orderByKey();
-        qury.addValueEventListener(new ValueEventListener() {
+    private List<modalHomeRecomendedSongs> wt_initData() {
+        wt_itemlist = new ArrayList<>();
+        Query dbr = FirebaseDatabase.getInstance().getReference("RecomendedSongs");
+        dbr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                wt_itemlist.clear();
-                for (DataSnapshot ds : snapshot.getChildren()) {
-                    Iterable<DataSnapshot> list = ds.getChildren();
-                    for (DataSnapshot temp : list) {
-                        String dbkey= temp.getKey();
-                        Query db =FirebaseDatabase.getInstance().getReference("Songs").child(dbkey);
-                        db.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                modalSongs songlistDetail=snapshot.getValue(modalSongs.class);
-                                wt_itemlist.add(songlistDetail);
-                            }
+             if (snapshot.exists()){
+                 for (DataSnapshot sn: snapshot.getChildren()){
+                     String lkey=sn.getValue(String.class);
 
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
+                     Query rsquery=FirebaseDatabase.getInstance().getReference("Songs/"+lkey);
+                     rsquery.addValueEventListener(new ValueEventListener() {
+                         @Override
+                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                             for (DataSnapshot ds : snapshot.getChildren()) {
+                                 modalHomeRecomendedSongs song = ds.getValue(modalHomeRecomendedSongs.class);
+                                 wt_itemlist.add(song);
+                             }
+                             System.out.println(wt_itemlist);
+                         }
 
-                            }
-                        });
-                    }
-                }
+                         @Override
+                         public void onCancelled(@NonNull DatabaseError error) {
+
+                         }
+                     });
+                 }
+             }
                 wt_songadapter = new itemAdapterHomeRecomended(wt_itemlist);
                 wt_recyclerView.setAdapter(wt_songadapter);
                 wt_songadapter.notifyDataSetChanged();
@@ -263,7 +269,6 @@ public class HomeFragment extends Fragment {
 
             }
         });
-
         return wt_itemlist;
     }
 

@@ -106,7 +106,7 @@ public class SongsFragment extends Fragment {
 
 
                 }
-                songadapter = new itemAdapterSongs( songsItemList);
+                songadapter = new itemAdapterSongs(getContext(), songsItemList);
                 songsRecycler.setAdapter(songadapter);
                 songadapter.notifyDataSetChanged();
                 if (songsItemList.isEmpty()) {
