@@ -3,6 +3,7 @@ package com.digital.rewind.itemAdapters;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -41,7 +42,7 @@ public class itemAdapterHomePopularArtist extends RecyclerView.Adapter<itemAdapt
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        com.google.android.material.imageview.ShapeableImageView pa_imageitem;
+        ImageView pa_imageitem;
         TextView pa_textitem;
 
         public ViewHolder(@NonNull View itemView) {

@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
-import com.digital.rewind.activitys.PlayerActivity;
 import com.digital.rewind.modals.modalSongs;
 import com.squareup.picasso.Picasso;
 
@@ -53,12 +52,6 @@ mContext=context;
                     namelist.add(ps_itemList.get(i).getSongName());
                     linklist.add(ps_itemList.get(i).getSongUrl());
                 }
-                Intent intent = new Intent(mContext, PlayerActivity.class);
-                intent.putExtra("namelist", (ArrayList) namelist);
-                intent.putExtra("linklist", (ArrayList) linklist);
-                intent.putExtra("position", position);
-
-                mContext.startActivity(intent);
             }
         });
 

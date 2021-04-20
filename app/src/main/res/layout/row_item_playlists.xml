@@ -58,12 +58,14 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="3dp"
             android:layout_weight="1"
-            android:lines="2"
             android:maxLines="2"
-
+            android:fadingEdge="horizontal"
+            android:fadingEdgeLength="5dp"
+            android:lines="2"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:minLines="1"
             android:scrollbars="horizontal"
             android:text="this is a sample playlist name"
-            android:textColor="@color/primaryText"
             android:textSize="18sp"
             android:textStyle="bold" />
 
@@ -78,14 +80,14 @@
                 android:layout_height="wrap_content"
                 android:padding="2dp"
                 android:text="231"
-                android:textColor="@color/accentTexe" />
+                android:textColor="@color/primaryText" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="2dp"
                 android:text="Songs"
-                android:textColor="@color/accentTexe" />
+                android:textColor="@color/primaryText" />
         </LinearLayout>
 
     </LinearLayout>
@@ -94,7 +96,7 @@
         android:id="@+id/playlist_playlist_option"
         android:layout_width="40dp"
         android:layout_height="match_parent"
-        android:src="@drawable/ic_option"
+        android:src="@drawable/ic_baseline_share_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

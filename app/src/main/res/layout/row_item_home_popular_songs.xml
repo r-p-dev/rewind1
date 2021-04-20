@@ -42,8 +42,10 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:lines="2"
-                android:maxLines="3"
-                android:minLines="2"
+                android:maxLines="2"
+                android:fadingEdge="horizontal"
+                android:fadingEdgeLength="5dp"
+                android:marqueeRepeatLimit="marquee_forever"
                 android:text="Name"
                 android:textSize="15sp"
                 android:textStyle="bold" />

@@ -16,72 +16,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/materialToolbar" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        style="@style/Widget.Design.FloatingActionButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="345dp"
-        android:layout_marginTop="554dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="#B7004D40"
-        android:elevation="50dp"
-        android:src="@drawable/ic_play"
-        android:tint="#FFA126"
-        app:borderWidth="2dp"
-        app:fabSize="auto"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/materialToolbar"
-        app:rippleColor="#F57F17" />
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/materialToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/blue_border_rounded_cornwe"
+        android:background="#70bbc9bb"
         android:gravity="center_horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchbtn"
+            android:layout_width="wrap_content"
+            android:layout_marginLeft="20dp"
+            app:searchIcon="@drawable/ic_search"
+            android:layout_height="match_parent"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginVertical="2dp"
-            android:background="@android:color/transparent"
-            android:elevation="3dp"
-            android:orientation="horizontal"
-            android:paddingHorizontal="20dp">
-
-            <ImageView
-                android:id="@+id/search_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:gravity="left"
-                android:src="@drawable/ic_search" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="130dp"
-                android:src="@drawable/ic_outline_remove_24" />
-
-            <ImageView
-                android:id="@+id/setting_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:gravity="right"
-                android:src="@drawable/ic_setting" />
-
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/setting_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/ic_setting"/>
     </com.google.android.material.appbar.MaterialToolbar>
+
 
 
     <com.etebarian.meowbottomnavigation.MeowBottomNavigation

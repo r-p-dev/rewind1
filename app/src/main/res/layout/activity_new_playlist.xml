@@ -35,7 +35,7 @@
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
         android:textAlignment="textStart"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/accent"
         android:textColorHint="#ACA9A9"
         android:textSize="16sp"
         app:layout_constraintBottom_toTopOf="@+id/newPlaylistCreatorName"
@@ -55,22 +55,14 @@
         android:inputType="textPersonName"
         android:paddingStart="10dp"
         android:paddingEnd="10dp"
-        android:textColor="#FFFFFF"
+        android:textColor="@color/accent"
         android:textColorHint="#BFBBBB"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/newPlaylistName" />
 
-<!--    <Button-->
-<!--        android:id="@+id/insertPlaylist"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="insert"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
 
     <ImageView
         android:id="@+id/newPlaylistimage"

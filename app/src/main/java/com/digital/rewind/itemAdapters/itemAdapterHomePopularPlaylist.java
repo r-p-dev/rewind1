@@ -1,5 +1,6 @@
 package com.digital.rewind.itemAdapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,14 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
 import com.digital.rewind.modals.modalPlaylist;
+import com.digital.rewind.modals.modelHomePopulorPlaylist;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class itemAdapterHomePopularPlaylist extends RecyclerView.Adapter<itemAdapterHomePopularPlaylist.ViewHolder> {
-    List<modalPlaylist> pp_itemList;
+    List<modelHomePopulorPlaylist> pp_itemList;
 
-    public itemAdapterHomePopularPlaylist(List<modalPlaylist> pp_itemList) {
+    public itemAdapterHomePopularPlaylist(Context contex,List<modelHomePopulorPlaylist> pp_itemList) {
         this.pp_itemList = pp_itemList;
 
     }

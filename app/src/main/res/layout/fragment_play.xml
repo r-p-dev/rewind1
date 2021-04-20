@@ -18,38 +18,29 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
-    <LinearLayout
-        android:id="@+id/player_songs_top"
-        android:layout_width="0dp"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center|center_horizontal"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_baseline_download_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:layout_marginHorizontal="30dp"
-            android:src="@drawable/ic_down_arrow" />
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="30dp"
-            android:src="@drawable/ic_baseline_download_24" />
-
-        <ImageView
-            android:layout_width="70dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_marginHorizontal="30dp"
-            android:src="@drawable/ic_baseline_playlist_add_24" />
-
-
-
-    </LinearLayout>
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="30dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="35dp"
+        android:src="@drawable/ic_baseline_playlist_add_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
     <androidx.cardview.widget.CardView
@@ -59,14 +50,14 @@
         android:layout_above="@+id/jcplayer"
         android:layout_below="@+id/player_songs_top"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
         android:background="@drawable/gradient_circle"
         app:cardCornerRadius="150dp"
-        app:layout_constraintBottom_toTopOf="@+id/jcplayer"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/player_songs_top">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/player_image"
@@ -82,12 +73,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/buttomopt"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="16dp"
         android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.125"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/cardView2"
+        app:layout_constraintVertical_bias="0.44"
         app:next_icon="@drawable/ic_next"
         app:next_icon_color="@color/accent"
         app:pause_icon="@drawable/ic_pause"
@@ -105,27 +98,6 @@
         app:text_audio_duration_color="@color/primaryText"
         app:text_audio_title_color="@color/secondaryTexe" />
 
-    <LinearLayout
-        android:id="@+id/buttomopt"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginHorizontal="6dp"
-        android:layout_marginTop="45dp"
-        android:baselineAligned="true"
-        android:gravity="bottom|center|clip_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/jcplayer">
-
-        <ScrollView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scrollbarStyle="insideOverlay"/>
-
-    </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

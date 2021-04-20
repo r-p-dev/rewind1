@@ -1,29 +1,15 @@
 package com.digital.rewind.activitys;
 
-import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.media.MediaMetadataRetriever;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.provider.OpenableColumns;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
 import com.digital.rewind.fragments.HomeFragment;
@@ -31,51 +17,24 @@ import com.digital.rewind.fragments.LocalFragment;
 import com.digital.rewind.fragments.PlayFragment;
 import com.digital.rewind.fragments.PlayListFragment;
 import com.digital.rewind.fragments.SongsFragment;
-import com.digital.rewind.itemAdapters.itemAdapterHomePopularPlaylist;
-import com.digital.rewind.itemAdapters.itemAdapterHomePopularSongs;
-import com.digital.rewind.itemAdapters.itemAdapterHomeRecomended;
-import com.digital.rewind.modals.modalHomePopularArtist;
-import com.digital.rewind.modals.modalLocalSongs;
-import com.digital.rewind.modals.modalPlaylist;
-import com.digital.rewind.modals.modalSongs;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
-import com.example.jean.jcplayer.JcPlayerManagerListener;
-import com.example.jean.jcplayer.general.JcStatus;
 import com.example.jean.jcplayer.model.JcAudio;
-import com.example.jean.jcplayer.service.JcPlayerService;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener, PopupMenu.OnMenuItemClickListener, JcPlayerManagerListener {
+public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenuItemClickListener {
     private static final String TAG = "mainActivity";
-    MeowBottomNavigation bottomNavigation;
+    public  MeowBottomNavigation bottomNavigation;
     ImageView setting_btn;
-    FloatingActionButton fab;
-    boolean playStatus = true;
     ArrayList<JcAudio> jcAudios = new ArrayList<>();
+    public Fragment homefragment = new HomeFragment();
+    public Fragment localfragment = new LocalFragment();
+    public  Fragment playfragment = new PlayFragment();
+    public Fragment playlistfragment = new  PlayListFragment();
+    public Fragment songsfragment = new SongsFragment();
+    public Fragment activeFragment =homefragment;
+
 
     // TODO: Rename and change types of parame
 
@@ -86,7 +45,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         //assigning buttom nav variable
         bottomNavigation = findViewById(R.id.bottom_navigation);
-        fab = findViewById(R.id.fab);
+
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.frame_layout,homefragment,"home")
+                .add(R.id.frame_layout,localfragment,"home").hide(localfragment)
+                .add(R.id.frame_layout,playfragment,"home").hide(playfragment)
+                .add(R.id.frame_layout,playlistfragment,"home").hide(playlistfragment)
+                .add(R.id.frame_layout,songsfragment,"home").hide(songsfragment)
+                .commit();
+
         // adding menu items
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_home));
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_music));
@@ -120,19 +89,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 switch (item.getId()) {
                     case 1:
-                        fragment = new HomeFragment();
+                        fragment = homefragment;
                         break;
                     case 2:
-                        fragment = new SongsFragment();
+                        fragment = songsfragment;
                         break;
                     case 3:
-                        fragment = new PlayFragment();
+                        fragment = playfragment;
                         break;
                     case 4:
-                        fragment = new PlayListFragment();
+                        fragment = playlistfragment;
                         break;
                     case 5:
-                        fragment = new LocalFragment();
+                        fragment = localfragment;
                         break;
 
                 }
@@ -140,35 +109,66 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 loadFragment(fragment);
             }
         });
-        //setting home selected
+
         bottomNavigation.show(1, true);
 
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
+                Fragment fragment = null;
 
+                switch (item.getId()) {
+                    case 1:
+                        fragment = homefragment;
+                        break;
+                    case 2:
+                        fragment = songsfragment;
+                        break;
+                    case 3:
+                        fragment = playfragment;
+                        break;
+                    case 4:
+                        fragment = playlistfragment;
+                        break;
+                    case 5:
+                        fragment = localfragment;
+                        break;
+
+                }
+                //loading fragment
+                loadFragment(fragment);
             }
         });
         bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
             @Override
             public void onReselectItem(MeowBottomNavigation.Model item) {
+            }
+        });
 
-            }
-        });
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
+
+
+
     }
+
+
 
 
     private void loadFragment(Fragment fragment) {
         //replacing fragment
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_layout, fragment)
-                .commit();
+        if (activeFragment!=null){
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .hide(activeFragment)
+                    .show(fragment)
+                    .commit();
+            activeFragment=fragment;
+        }else{
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.frame_layout,fragment)
+                    .commit();
+            activeFragment=fragment;
+        }
     }
 
 
@@ -199,62 +199,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             default:
                 return false;
         }
-    }
-
-
-    @Override
-    public void onCompletedAudio() {
-
-    }
-
-    @Override
-    public void onContinueAudio(JcStatus jcStatus) {
-
-    }
-
-    @Override
-    public void onJcpError(Throwable throwable) {
-
-    }
-
-    @Override
-    public void onPaused(JcStatus jcStatus) {
-        fab.setImageResource(R.drawable.ic_play);
-        playStatus=false;
-
-    }
-
-    @Override
-    public void onPlaying(JcStatus jcStatus) {
-        fab.setImageResource(R.drawable.ic_pause);
-        playStatus=true;
-
-    }
-
-    @Override
-    public void onPreparedAudio(JcStatus jcStatus) {
-
-    }
-
-    @Override
-    public void onStopped(JcStatus jcStatus) {
-        fab.setImageResource(R.drawable.ic_play);
-
-    }
-
-    @Override
-    public void onTimeChanged(JcStatus jcStatus) {
-
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
-
-    @Override
-    public void onClick(View v) {
-
     }
 
 }

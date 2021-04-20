@@ -1,11 +1,9 @@
 package com.digital.rewind.itemAdapters;
 
 import android.content.Context;
-import android.content.Intent;
+
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,23 +15,17 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.PopupMenu;
-import androidx.core.content.ContextCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
 import com.digital.rewind.activitys.MainActivity;
-import com.digital.rewind.activitys.PlayerActivity;
-import com.digital.rewind.activitys.UploadActivity;
 import com.digital.rewind.fragments.PlayFragment;
 import com.digital.rewind.modals.modalLocalSongs;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.ContentValues.TAG;
-import static androidx.core.content.ContextCompat.getSystemServiceName;
-import static androidx.core.content.ContextCompat.startActivity;
 
 public class itemAdapterLocalSongs extends RecyclerView.Adapter<itemAdapterLocalSongs.ViewHolder> {
     List<modalLocalSongs> local_songs_itemList;
@@ -78,16 +70,34 @@ public class itemAdapterLocalSongs extends RecyclerView.Adapter<itemAdapterLocal
                     namelist.add(local_songs_itemList.get(i).getLocalsongName());
                     pathlist.add(local_songs_itemList.get(i).getLocalsongPath());
                 }
-                Intent intent = new Intent(mContext, PlayerActivity.class);
-                intent.putExtra("namelist", (ArrayList) namelist);
-                intent.putExtra("pathlist", (ArrayList) pathlist);
-                intent.putExtra("position", position);
 
-                mContext.startActivity(intent);
+                PlayFragment pf=new PlayFragment();
+                Bundle b=new Bundle();
+                b.putStringArrayList("namelist", (ArrayList<String>) namelist);
+                b.putStringArrayList("pathlist", (ArrayList<String>) pathlist);
+                b.putInt("position",position);
+                pf.setArguments(b);
+                loadFragment(pf);
             }
         });
 
     }
+
+    private void loadFragment(Fragment fragment) {
+        //replacing fragment
+
+        ((MainActivity)mContext).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .commit();
+        ((MainActivity)mContext).bottomNavigation.show(3, true);
+        ((MainActivity)mContext).playfragment=fragment;
+        ((MainActivity)mContext).activeFragment= ((MainActivity)mContext).playfragment;
+
+
+
+    }
+
 
     @Override
     public int getItemCount() {
@@ -95,11 +105,11 @@ public class itemAdapterLocalSongs extends RecyclerView.Adapter<itemAdapterLocal
 
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, PopupMenu.OnMenuItemClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         com.google.android.material.imageview.ShapeableImageView local_song_image;
         TextView local_song_title, local_song_art_name, local_song_length;
         ImageView local_song_option;
-        RelativeLayout parentLayout;
+        ConstraintLayout parentLayout;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             parentLayout=itemView.findViewById(R.id.local_song_item);
@@ -107,42 +117,6 @@ public class itemAdapterLocalSongs extends RecyclerView.Adapter<itemAdapterLocal
             local_song_title = itemView.findViewById(R.id.local_song_title);
             local_song_art_name = itemView.findViewById(R.id.local_song_art_name);
             local_song_length = itemView.findViewById(R.id.local_song_length);
-            local_song_option = itemView.findViewById(R.id.local_songs_song_option_btn);
-
-
-
-
-            local_song_option.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            showLocalOption(v);
-        }
-
-        private void showLocalOption(View view) {
-            PopupMenu localOptionMenu = new PopupMenu(view.getContext(), view);
-            localOptionMenu.inflate(R.menu.option_menu);
-            localOptionMenu.setOnMenuItemClickListener(this);
-            localOptionMenu.show();
-        }
-
-        @Override
-        public boolean onMenuItemClick(MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.option_menu_play:
-
-                    Toast.makeText(itemView.getContext(), "play option clicked @ in:" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.option_menu_playnext:
-                    Toast.makeText(itemView.getContext(), "playNext option clicked @ in :" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-                    return true;
-                case R.id.option_menu_addtoplaylist:
-                    Toast.makeText(itemView.getContext(), "AddToPlayList option clicked @ in :" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
-                    return true;
-                default:
-                    return false;
-            }
         }
     }
 
