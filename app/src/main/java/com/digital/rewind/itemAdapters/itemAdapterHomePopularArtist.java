@@ -1,5 +1,6 @@
 package com.digital.rewind.itemAdapters;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,15 +11,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
-import com.digital.rewind.modals.modalHomePopularArtist;
+import com.digital.rewind.modals.ArtistAdp;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 public class itemAdapterHomePopularArtist extends RecyclerView.Adapter<itemAdapterHomePopularArtist.ViewHolder> {
-    List<modalHomePopularArtist> pa_itemList;
+    List<ArtistAdp> pa_itemList;
+    Context mContex;
 
-    public itemAdapterHomePopularArtist(List<modalHomePopularArtist> pa_itemList) {
+    public itemAdapterHomePopularArtist(Context contex,List<ArtistAdp> pa_itemList) {
         this.pa_itemList = pa_itemList;
+        mContex=contex;
 
     }
 
@@ -32,8 +36,10 @@ public class itemAdapterHomePopularArtist extends RecyclerView.Adapter<itemAdapt
 
     @Override
     public void onBindViewHolder(@NonNull itemAdapterHomePopularArtist.ViewHolder holder, int position) {
-        holder.pa_imageitem.setImageResource(pa_itemList.get(position).getImage());
-        holder.pa_textitem.setText(pa_itemList.get(position).getName());
+        Picasso.get().load(pa_itemList.get(position).getArtistPic()).into(holder.pa_imageitem);
+
+//        holder.pa_imageitem.setImageResource(pa_itemList.get(position).getImage());
+        holder.pa_textitem.setText(pa_itemList.get(position).getArtistName());
     }
 
     @Override

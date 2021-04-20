@@ -8,6 +8,11 @@
         android:title="Upload"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/add_new_artist"
+        android:icon="@drawable/ic_person"
+        android:title="Add Artist"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/new_playlist"
         android:icon="@drawable/ic_logout"
         android:title="New Playlist"

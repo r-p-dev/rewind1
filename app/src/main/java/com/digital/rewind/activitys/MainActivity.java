@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.PopupMenu;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
 import com.digital.rewind.fragments.HomeFragment;
@@ -17,9 +21,13 @@ import com.digital.rewind.fragments.LocalFragment;
 import com.digital.rewind.fragments.PlayFragment;
 import com.digital.rewind.fragments.PlayListFragment;
 import com.digital.rewind.fragments.SongsFragment;
+import com.digital.rewind.itemAdapters.myAdapter;
+import com.digital.rewind.modals.model;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.jean.jcplayer.model.JcAudio;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -27,6 +35,10 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
     private static final String TAG = "mainActivity";
     public  MeowBottomNavigation bottomNavigation;
     ImageView setting_btn;
+    SearchView searchView;
+    RecyclerView recview;
+    myAdapter adapter;
+
     ArrayList<JcAudio> jcAudios = new ArrayList<>();
     public Fragment homefragment = new HomeFragment();
     public Fragment localfragment = new LocalFragment();
@@ -63,6 +75,28 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
         bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.ic_playlistplay));
         bottomNavigation.add(new MeowBottomNavigation.Model(5, R.drawable.ic_local));
         setting_btn = findViewById(R.id.setting_btn);
+        searchView=findViewById(R.id.searchbtn);
+        recview=findViewById(R.id.recview);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                processsearch(s);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                processsearch(s);
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                recview.setAdapter(null);
+                return false;
+            }
+        });
         setting_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,28 +149,28 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
         bottomNavigation.setOnClickMenuListener(new MeowBottomNavigation.ClickListener() {
             @Override
             public void onClickItem(MeowBottomNavigation.Model item) {
-                Fragment fragment = null;
-
-                switch (item.getId()) {
-                    case 1:
-                        fragment = homefragment;
-                        break;
-                    case 2:
-                        fragment = songsfragment;
-                        break;
-                    case 3:
-                        fragment = playfragment;
-                        break;
-                    case 4:
-                        fragment = playlistfragment;
-                        break;
-                    case 5:
-                        fragment = localfragment;
-                        break;
-
-                }
-                //loading fragment
-                loadFragment(fragment);
+//                Fragment fragment = null;
+//
+//                switch (item.getId()) {
+//                    case 1:
+//                        fragment = homefragment;
+//                        break;
+//                    case 2:
+//                        fragment = songsfragment;
+//                        break;
+//                    case 3:
+//                        fragment = playfragment;
+//                        break;
+//                    case 4:
+//                        fragment = playlistfragment;
+//                        break;
+//                    case 5:
+//                        fragment = localfragment;
+//                        break;
+//
+//                }
+//                //loading fragment
+//                loadFragment(fragment);
             }
         });
         bottomNavigation.setOnReselectListener(new MeowBottomNavigation.ReselectListener() {
@@ -150,25 +184,36 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
 
     }
 
+    private void processsearch(String s)
+    {
+        FirebaseRecyclerOptions<model> options =
+                new FirebaseRecyclerOptions.Builder<model>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Songs").orderByChild("songName").startAt(s).endAt(s+"\uf8ff"), model.class)
+                        .build();
 
+        adapter=new myAdapter(options);
+        adapter.startListening();
+        recview.setAdapter(adapter);
+
+    }
 
 
     private void loadFragment(Fragment fragment) {
         //replacing fragment
-        if (activeFragment!=null){
+//        if (activeFragment!=null){
             getSupportFragmentManager()
                     .beginTransaction()
                     .hide(activeFragment)
                     .show(fragment)
                     .commit();
             activeFragment=fragment;
-        }else{
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.frame_layout,fragment)
-                    .commit();
-            activeFragment=fragment;
-        }
+//        }else{
+//            getSupportFragmentManager()
+//                    .beginTransaction()
+//                    .replace(R.id.frame_layout,fragment)
+//                    .commit();
+//            activeFragment=fragment;
+//        }
     }
 
 
@@ -182,6 +227,12 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
                 startActivity(ii);
                 finish();
                 return true;
+            case R.id.add_new_artist:
+                Intent iv = new Intent(MainActivity.this, addArtistActivity.class);
+                startActivity(iv);
+                finish();
+                return true;
+
             case R.id.new_playlist:
 //                uploadSong();
                 Intent iii = new Intent(MainActivity.this, NewPlaylistActivity.class);

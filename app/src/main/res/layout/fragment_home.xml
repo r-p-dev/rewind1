@@ -40,7 +40,7 @@
                         android:padding="7dp"
                         android:text="Recomended For You!!"
                         android:textColor="@color/secondaryTexe"
-                        android:textSize="20dp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
 
@@ -76,7 +76,7 @@
                         android:text="Popular PlayList"
                         android:textAlignment="textStart"
                         android:textColor="@color/secondaryTexe"
-                        android:textSize="20dp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
 
@@ -111,7 +111,7 @@
                         android:text="Popular Songs"
                         android:textAlignment="textStart"
                         android:textColor="@color/secondaryTexe"
-                        android:textSize="20dp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
 
@@ -145,7 +145,7 @@
                         android:text="Artist"
                         android:textAlignment="textStart"
                         android:textColor="@color/secondaryTexe"
-                        android:textSize="20dp"
+                        android:textSize="15sp"
                         android:textStyle="bold" />
 
 

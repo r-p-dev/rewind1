@@ -71,7 +71,7 @@ public class itemAdapterLocalSongs extends RecyclerView.Adapter<itemAdapterLocal
                     pathlist.add(local_songs_itemList.get(i).getLocalsongPath());
                 }
 
-                PlayFragment pf=new PlayFragment();
+                Fragment pf=new PlayFragment();
                 Bundle b=new Bundle();
                 b.putStringArrayList("namelist", (ArrayList<String>) namelist);
                 b.putStringArrayList("pathlist", (ArrayList<String>) pathlist);
@@ -88,11 +88,14 @@ public class itemAdapterLocalSongs extends RecyclerView.Adapter<itemAdapterLocal
 
         ((MainActivity)mContext).getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.frame_layout, fragment)
+                .replace(R.id.frame_layout,fragment)
+//                .hide(((MainActivity)mContext).activeFragment)
+//                .show( fragment)
                 .commit();
         ((MainActivity)mContext).bottomNavigation.show(3, true);
-        ((MainActivity)mContext).playfragment=fragment;
         ((MainActivity)mContext).activeFragment= ((MainActivity)mContext).playfragment;
+        ((MainActivity)mContext).activeFragment= ((MainActivity)mContext).localfragment;
+
 
 
 

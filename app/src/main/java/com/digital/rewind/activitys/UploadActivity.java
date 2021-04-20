@@ -8,7 +8,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.os.Bundle;
@@ -63,7 +62,7 @@ public class UploadActivity extends AppCompatActivity {
         selectSongNameEditText = findViewById(R.id.selectSong);
         selectImage = findViewById(R.id.selectImage);
         uploadButton = findViewById(R.id.uploadSongButton);
-        artistName = findViewById(R.id.artistNameEditText);
+        artistName = findViewById(R.id.artistName);
         selectSong = findViewById(R.id.selectSongButton);
 
         selectSong.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +122,27 @@ public class UploadActivity extends AppCompatActivity {
         }
     }
 
-
+public  void upload_to_Recomended(View view){
+    if (uriSong == null){
+        Toast.makeText(this, "Please select a song", Toast.LENGTH_SHORT).show();
+    }
+    else if (selectSongNameEditText.getText().toString().equals("")){
+        Toast.makeText(this, "Song name cannot be empty!", Toast.LENGTH_SHORT).show();
+    }
+    else if(artistName.getText().toString().equals("")){
+        Toast.makeText(this, "Please add Artist, album name", Toast.LENGTH_SHORT).show();
+    }
+    else if (image == null){
+        Toast.makeText(this, "Please select a Thumbnail", Toast.LENGTH_SHORT).show();
+    }
+    else {
+        fileName = selectSongNameEditText.getText().toString();
+        String artist = artistName.getText().toString();
+        String lo="RecomendedSongs";
+        uploadImageToServer(bytes,fileName);
+        uploadFileToServer(uriSong,fileName,artist,songLength,lo);
+    }
+}
 
     public void upload(View view){
         if (uriSong == null){
@@ -141,9 +160,11 @@ public class UploadActivity extends AppCompatActivity {
         else {
             fileName = selectSongNameEditText.getText().toString();
             String artist = artistName.getText().toString();
+            String loc="Songs";
             uploadImageToServer(bytes,fileName);
-            uploadFileToServer(uriSong,fileName,artist,songLength);
+            uploadFileToServer(uriSong,fileName,artist,songLength,loc);
         }
+
     }
 
     public void uploadImageToServer(byte[] image, String fileName) {
@@ -167,7 +188,7 @@ public class UploadActivity extends AppCompatActivity {
     }
 
     // METHOD TO HANDEL SONG UPLOAD TO THE STORAGE SERVER
-    public void uploadFileToServer(Uri uri, final String songName, final String artist, final String duration){
+    public void uploadFileToServer(Uri uri, final String songName, final String artist, final String duration, String loc){
         StorageReference filePath = storageReference.child("Audios").child(songName);
         progressDialog.show();
         filePath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -179,7 +200,7 @@ public class UploadActivity extends AppCompatActivity {
                 Uri urlSong = uriTask.getResult();
                 songUrl = urlSong.toString();
 //                Log.i("success url ", songUrl);
-                uploadDetailsToDatabase(fileName,songUrl,imageUrl,artist,duration);
+                uploadDetailsToDatabase(fileName,songUrl,imageUrl,artist,duration,loc);
 //                progressDialog.dismiss();
             }
 
@@ -201,10 +222,10 @@ public class UploadActivity extends AppCompatActivity {
     }
 
     // UPLOAD SONG NAME AND URL TO REALTIME DATABASE
-    public void uploadDetailsToDatabase(String songName, String songUrl, String imageUrl, String artistName, String songDuration){
+    public void uploadDetailsToDatabase(String songName, String songUrl, String imageUrl, String artistName, String songDuration, String loc){
 
         SongAdp song = new SongAdp(songName,songUrl,imageUrl,artistName,songDuration);
-        FirebaseDatabase.getInstance().getReference("Songs")
+        FirebaseDatabase.getInstance().getReference(loc)
                 .push().setValue(song).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

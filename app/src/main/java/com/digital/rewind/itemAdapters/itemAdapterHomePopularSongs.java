@@ -2,6 +2,7 @@ package com.digital.rewind.itemAdapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
+import com.digital.rewind.activitys.MainActivity;
+import com.digital.rewind.fragments.PlayFragment;
 import com.digital.rewind.modals.modalSongs;
 import com.squareup.picasso.Picasso;
 
@@ -52,10 +56,36 @@ mContext=context;
                     namelist.add(ps_itemList.get(i).getSongName());
                     linklist.add(ps_itemList.get(i).getSongUrl());
                 }
+                Fragment pf=new PlayFragment();
+                Bundle b=new Bundle();
+                b.putStringArrayList("namelist", (ArrayList<String>) namelist);
+                b.putStringArrayList("linklist", (ArrayList<String>) linklist);
+                b.putInt("position",position);
+                pf.setArguments(b);
+                loadFragment(pf);
             }
         });
 
     }
+
+    private void loadFragment(Fragment fragment) {
+        //replacing fragment
+
+        ((MainActivity)mContext).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_layout,fragment)
+//                .hide(((MainActivity)mContext).activeFragment)
+//                .show( fragment)
+                .commit();
+        ((MainActivity)mContext).bottomNavigation.show(3, true);
+        ((MainActivity)mContext).activeFragment= ((MainActivity)mContext).playfragment;
+        ((MainActivity)mContext).activeFragment= ((MainActivity)mContext).localfragment;
+
+
+
+
+    }
+
 
     @Override
     public int getItemCount() {

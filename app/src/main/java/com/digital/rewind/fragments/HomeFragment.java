@@ -1,6 +1,7 @@
 package com.digital.rewind.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,8 @@ import com.digital.rewind.itemAdapters.itemAdapterHomePopularArtist;
 import com.digital.rewind.itemAdapters.itemAdapterHomePopularPlaylist;
 import com.digital.rewind.itemAdapters.itemAdapterHomePopularSongs;
 import com.digital.rewind.itemAdapters.itemAdapterHomeRecomended;
-import com.digital.rewind.itemAdapters.itemAdapterPlaylist;
-import com.digital.rewind.modals.modalHomePopularArtist;
+import com.digital.rewind.modals.ArtistAdp;
 import com.digital.rewind.modals.modalHomeRecomendedSongs;
-import com.digital.rewind.modals.modalPlaylist;
 import com.digital.rewind.modals.modalSongs;
 import com.digital.rewind.modals.modelHomePopulorPlaylist;
 import com.google.firebase.database.DataSnapshot;
@@ -48,14 +47,18 @@ public class HomeFragment extends Fragment {
     RecyclerView pp_recyclerView;
     RecyclerView ps_recyclerView;
     RecyclerView pa_recyclerView;
+
+
     List<modalHomeRecomendedSongs> wt_itemlist;
     List<modelHomePopulorPlaylist> pp_itemlist;
     List<modalSongs> ps_itemlist;
-    List<modalHomePopularArtist> pa_itemlist;
-    ImageView morePlaylist, moreSongs;
+    List<ArtistAdp> pa_itemlist;
+
+
     itemAdapterHomePopularSongs hp_songadapter;
     itemAdapterHomePopularPlaylist hp_playlistadapter;
     itemAdapterHomeRecomended wt_songadapter;
+    itemAdapterHomePopularArtist hp_artistadapter;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -154,16 +157,27 @@ public class HomeFragment extends Fragment {
 
     private void pa_initData() {
         pa_itemlist = new ArrayList<>();
-        pa_itemlist.add(new modalHomePopularArtist(R.drawable.artist1, "Artist 1"));
-        pa_itemlist.add(new modalHomePopularArtist(R.drawable.artist2, "Aartist2"));
-        pa_itemlist.add(new modalHomePopularArtist(R.drawable.artist3, "Aartist3"));
-        pa_itemlist.add(new modalHomePopularArtist(R.drawable.artist4, "Aartist4"));
-        pa_itemlist.add(new modalHomePopularArtist(R.drawable.artist5, "Aartist5"));
-        pa_itemlist.add(new modalHomePopularArtist(R.drawable.artist4, "Aartist4"));
-        pa_itemlist.add(new modalHomePopularArtist(R.drawable.artist2, "Aartist2"));
-        pa_itemlist.add(new modalHomePopularArtist(R.drawable.artist5, "Aartist5"));
-        pa_itemlist.add(new modalHomePopularArtist(R.drawable.artist2, "Aartist2"));
-        pa_itemlist.add(new modalHomePopularArtist(R.drawable.artist1, "Artist 1"));
+       Query dr=FirebaseDatabase.getInstance().getReference("Artist").limitToLast(20);
+       dr.addValueEventListener(new ValueEventListener() {
+           @Override
+           public void onDataChange(@NonNull DataSnapshot snapshot) {
+               pa_itemlist.clear();
+               for (DataSnapshot dsa : snapshot.getChildren()) {
+                   ArtistAdp art = dsa.getValue(ArtistAdp.class);
+
+                   pa_itemlist.add(art);
+               }
+               hp_artistadapter = new itemAdapterHomePopularArtist(getContext(),pa_itemlist);
+               pa_recyclerView.setAdapter(hp_artistadapter);
+               hp_artistadapter.notifyDataSetChanged();
+
+           }
+
+           @Override
+           public void onCancelled(@NonNull DatabaseError error) {
+
+           }
+       });
 
 
     }
@@ -197,20 +211,19 @@ public class HomeFragment extends Fragment {
 
     private void wt_initData() {
         wt_itemlist = new ArrayList<>();
-        Query dbr = FirebaseDatabase.getInstance().getReference("RecomendedSongs");
-
-        dbr.addValueEventListener(new ValueEventListener() {
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("RecomendedSongs");
+        Query qury= databaseReference.limitToLast(12);
+        qury.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    for (DataSnapshot sn: snapshot.getChildren()){
-                        String lkey=sn.getValue(String.class);
-                        System.out.println("printing keyd.....................................................................................................................................");
-                        System.out.println(lkey);
-                        System.out.println("Inner Function Called.....................................................................................................................................");
-                       getsong(lkey);
-                    }
+                wt_itemlist.clear();
+                for (DataSnapshot ds : snapshot.getChildren()) {
+                    modalHomeRecomendedSongs song = ds.getValue(modalHomeRecomendedSongs.class);
+                    wt_itemlist.add(song);
                 }
+                wt_songadapter = new itemAdapterHomeRecomended(getContext(),wt_itemlist);
+                wt_recyclerView.setAdapter(wt_songadapter);
+                wt_songadapter.notifyDataSetChanged();
 
             }
 
@@ -220,13 +233,10 @@ public class HomeFragment extends Fragment {
             }
         });
 
-                wt_songadapter = new itemAdapterHomeRecomended(wt_itemlist);
-                wt_recyclerView.setAdapter(wt_songadapter);
-                wt_songadapter.notifyDataSetChanged();
     }
 
     private void getsong(String lkey) {
-        Query rsquery=FirebaseDatabase.getInstance().getReference("Songs/"+lkey);
+        Query rsquery=FirebaseDatabase.getInstance().getReference("Songs/-"+lkey);
         rsquery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot sp) {
