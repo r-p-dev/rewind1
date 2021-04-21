@@ -33,28 +33,14 @@
         android:layout_height="0dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
-        android:gravity="left"
+        android:gravity="left|bottom"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/ser_song_length"
         app:layout_constraintStart_toEndOf="@+id/ser_song_image"
         app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/ser_song_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginVertical="2dp"
-            android:fadingEdge="horizontal"
-            android:fadingEdgeLength="5dp"
-            android:lines="1"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:maxLines="1"
-            android:minLines="1"
-            android:singleLine="true"
-            android:text="Name of the song goes here and if we ges "
-            android:textSize="15sp"
-            android:textStyle="bold" />
+
 
         <TextView
             android:id="@+id/ser_song_art_name"
@@ -72,6 +58,23 @@
             android:text="Name of the artist goes here"
             android:textSize="10sp"
             android:textStyle="italic" />
+        <TextView
+            android:id="@+id/ser_song_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="2dp"
+            android:fadingEdge="horizontal"
+            android:fadingEdgeLength="5dp"
+            android:lines="1"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:maxLines="1"
+            android:minLines="1"
+            android:singleLine="true"
+            android:text="Name of the song goes here and if we ges "
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+
 
 
     </LinearLayout>

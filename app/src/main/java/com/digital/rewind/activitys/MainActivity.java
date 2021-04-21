@@ -184,14 +184,13 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
 
     }
 
-    private void processsearch(String s)
-    {
+    private void processsearch(String s) {
         FirebaseRecyclerOptions<model> options =
                 new FirebaseRecyclerOptions.Builder<model>()
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("Songs").orderByChild("songName").startAt(s).endAt(s+"\uf8ff"), model.class)
                         .build();
 
-        adapter=new myAdapter(options);
+        adapter=new myAdapter(MainActivity.this,options);
         adapter.startListening();
         recview.setAdapter(adapter);
 

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +22,7 @@ import com.digital.rewind.R;
 import com.digital.rewind.activitys.MainActivity;
 import com.digital.rewind.fragments.PlayFragment;
 import com.digital.rewind.modals.modalSongs;
+import com.example.jean.jcplayer.model.JcAudio;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -75,7 +77,15 @@ public class itemAdapterSongs extends RecyclerView.Adapter<itemAdapterSongs.View
                 loadFragment(pf);
             }
         });
-
+//        holder.songs_song_option.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                String name=songs_itemList.get(position).getSongName();
+//                String link=songs_itemList.get(position).getSongUrl();
+//                JcAudio audio=JcAudio.createFromURL(name,link);
+//
+//            }
+//        });
 
     }
 
@@ -113,7 +123,7 @@ public class itemAdapterSongs extends RecyclerView.Adapter<itemAdapterSongs.View
         com.google.android.material.imageview.ShapeableImageView songs_song_image;
         TextView songs_song_title, songs_song_art_name, songs_song_length;
         ImageView songs_song_option;
-        RelativeLayout songitem_item;
+        ConstraintLayout songitem_item;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -123,6 +133,9 @@ public class itemAdapterSongs extends RecyclerView.Adapter<itemAdapterSongs.View
             songs_song_art_name = itemView.findViewById(R.id.songs_song_art_name);
             songs_song_length = itemView.findViewById(R.id.songs_song_length);
             songitem_item=itemView.findViewById(R.id.songitem_item);
+//            songs_song_option=itemView.findViewById(R.id.songs_song_option_btn);
+
+
 
 
         }

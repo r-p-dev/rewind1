@@ -28,7 +28,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:gravity="left"
+        android:layout_marginStart="8dp"
+        android:gravity="left|center_vertical"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/local_song_length"
@@ -56,9 +57,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginVertical="2dp"
-            android:gravity="center"
             android:fadingEdge="horizontal"
             android:fadingEdgeLength="5dp"
+            android:gravity="center"
             android:lines="1"
             android:marqueeRepeatLimit="marquee_forever"
             android:maxLines="1"
@@ -75,13 +76,16 @@
         android:id="@+id/local_song_length"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="bottom"
         android:paddingHorizontal="2dp"
         android:paddingVertical="1dp"
         android:text="10:39"
         android:textSize="10sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.71000004" />
 
 
 

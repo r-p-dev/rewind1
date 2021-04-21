@@ -35,7 +35,7 @@ import static android.content.Intent.makeMainActivity;
  */
 public class PlayFragment extends Fragment {
     JcPlayerView jcplayerView;
-    ArrayList<JcAudio> jcAudios = new ArrayList<>();
+   public ArrayList<JcAudio> jcAudios = new ArrayList<>();
     int position=0;
   Boolean  checkPermission=false;
     // TODO: Rename parameter arguments, choose names that match

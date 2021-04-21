@@ -1,26 +1,40 @@
 package com.digital.rewind.itemAdapters;
 
+import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
+import com.digital.rewind.activitys.MainActivity;
+import com.digital.rewind.fragments.PlayFragment;
 import com.digital.rewind.modals.model;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class myAdapter extends FirebaseRecyclerAdapter<model,myAdapter.myviewholder>
-{
-    public myAdapter(@NonNull FirebaseRecyclerOptions<model> options) {
+public class myAdapter extends FirebaseRecyclerAdapter<model,myAdapter.myviewholder> {
+    List<String> namelist=new ArrayList<>();
+    List<String> linklist=new ArrayList<>();
+    Context mContext;
+    public myAdapter(Context context,@NonNull FirebaseRecyclerOptions<model> options) {
         super(options);
+        mContext=context;
+
     }
 
     @Override
@@ -29,7 +43,43 @@ public class myAdapter extends FirebaseRecyclerAdapter<model,myAdapter.myviewhol
         holder.name.setText(model.getSongName());
         holder.art.setText(model.getSongArtist());
         holder.len.setText(model.getSongDuration());
+        holder.searchSocontainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(mContext, "item clicked"+position, Toast.LENGTH_SHORT).show();
+                    namelist.add(model.getSongName());
+                    linklist.add(model.getSongUrl());
+
+                Fragment pf=new PlayFragment();
+                Bundle b=new Bundle();
+                b.putStringArrayList("namelist", (ArrayList<String>) namelist);
+                b.putStringArrayList("linklist", (ArrayList<String>) linklist);
+                b.putInt("position",position);
+                pf.setArguments(b);
+                loadFragment(pf);
+            }
+
+        });
     }
+
+    private void loadFragment(Fragment fragment) {
+        //replacing fragment
+
+        ((MainActivity)mContext).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_layout,fragment)
+//                .hide(((MainActivity)mContext).activeFragment)
+//                .show( fragment)
+                .commit();
+        ((MainActivity)mContext).bottomNavigation.show(3, true);
+        ((MainActivity)mContext).activeFragment= ((MainActivity)mContext).playfragment;
+        ((MainActivity)mContext).activeFragment= ((MainActivity)mContext).localfragment;
+
+
+
+
+    }
+
 
     @NonNull
     @Override
@@ -44,6 +94,8 @@ public class myAdapter extends FirebaseRecyclerAdapter<model,myAdapter.myviewhol
     {
         ImageView img;
         TextView name,art,len;
+        ConstraintLayout searchSocontainer;
+
         public myviewholder(@NonNull View itemView)
         {
             super(itemView);
@@ -51,6 +103,7 @@ public class myAdapter extends FirebaseRecyclerAdapter<model,myAdapter.myviewhol
             name=itemView.findViewById(R.id.ser_song_length);
             art=itemView.findViewById(R.id.ser_song_art_name);
             len=itemView.findViewById(R.id.ser_song_length);
+            searchSocontainer=itemView.findViewById(R.id.ser_song_item);
         }
     }
 }
