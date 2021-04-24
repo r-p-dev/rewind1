@@ -6,12 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.OpenableColumns;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,9 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.digital.rewind.R;
-import com.digital.rewind.modals.ArtistAdp;
-import com.digital.rewind.modals.PlaylistAdp;
-import com.digital.rewind.modals.SongAdp;
+import com.digital.rewind.modals.modalArtist;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,10 +31,6 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 public class addArtistActivity extends AppCompatActivity {
     ImageView image_for_new_artist;
@@ -143,7 +135,7 @@ public class addArtistActivity extends AppCompatActivity {
     }
 
     public void uploadDetailsToDatabase(String name, String imageUrl){
-        ArtistAdp arist = new ArtistAdp(name,imageUrl);
+        modalArtist arist = new modalArtist(name,imageUrl);
         FirebaseDatabase.getInstance().getReference("Artist")
                 .push().setValue(arist).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

@@ -1,11 +1,10 @@
 package com.digital.rewind.fragments;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,7 +16,7 @@ import com.digital.rewind.itemAdapters.itemAdapterHomePopularArtist;
 import com.digital.rewind.itemAdapters.itemAdapterHomePopularPlaylist;
 import com.digital.rewind.itemAdapters.itemAdapterHomePopularSongs;
 import com.digital.rewind.itemAdapters.itemAdapterHomeRecomended;
-import com.digital.rewind.modals.ArtistAdp;
+import com.digital.rewind.modals.modalArtist;
 import com.digital.rewind.modals.modalHomeRecomendedSongs;
 import com.digital.rewind.modals.modalSongs;
 import com.digital.rewind.modals.modelHomePopulorPlaylist;
@@ -52,7 +51,7 @@ public class HomeFragment extends Fragment {
     List<modalHomeRecomendedSongs> wt_itemlist;
     List<modelHomePopulorPlaylist> pp_itemlist;
     List<modalSongs> ps_itemlist;
-    List<ArtistAdp> pa_itemlist;
+    List<modalArtist> pa_itemlist;
 
 
     itemAdapterHomePopularSongs hp_songadapter;
@@ -111,12 +110,16 @@ public class HomeFragment extends Fragment {
 
 
 //initData();
+        ProgressDialog pd=new ProgressDialog(getContext());
+        pd.setTitle("Loading Data.....");
+        pd.show();
         wt_initData();
         pp_initData();
         ps_initData();
         pa_initData();
-
+        pd.dismiss();
         return view;
+
 
     }
 
@@ -163,7 +166,7 @@ public class HomeFragment extends Fragment {
            public void onDataChange(@NonNull DataSnapshot snapshot) {
                pa_itemlist.clear();
                for (DataSnapshot dsa : snapshot.getChildren()) {
-                   ArtistAdp art = dsa.getValue(ArtistAdp.class);
+                   modalArtist art = dsa.getValue(modalArtist.class);
 
                    pa_itemlist.add(art);
                }

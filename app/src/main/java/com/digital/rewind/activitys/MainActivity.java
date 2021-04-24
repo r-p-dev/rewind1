@@ -1,5 +1,6 @@
 package com.digital.rewind.activitys;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -18,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.digital.rewind.R;
 import com.digital.rewind.fragments.HomeFragment;
 import com.digital.rewind.fragments.LocalFragment;
-import com.digital.rewind.fragments.PlayFragment;
+//import com.digital.rewind.fragments.PlayFragment;
 import com.digital.rewind.fragments.PlayListFragment;
 import com.digital.rewind.fragments.SongsFragment;
 import com.digital.rewind.itemAdapters.myAdapter;
@@ -26,6 +27,7 @@ import com.digital.rewind.modals.model;
 import com.etebarian.meowbottomnavigation.MeowBottomNavigation;
 import com.example.jean.jcplayer.model.JcAudio;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -37,15 +39,16 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
     ImageView setting_btn;
     SearchView searchView;
     RecyclerView recview;
+    FloatingActionButton fav;
     myAdapter adapter;
 
     ArrayList<JcAudio> jcAudios = new ArrayList<>();
-    public Fragment homefragment = new HomeFragment();
-    public Fragment localfragment = new LocalFragment();
-    public  Fragment playfragment = new PlayFragment();
-    public Fragment playlistfragment = new  PlayListFragment();
-    public Fragment songsfragment = new SongsFragment();
-    public Fragment activeFragment =homefragment;
+    public static Fragment homefragment = new HomeFragment();
+    public static Fragment localfragment = new LocalFragment();
+//    public static  Fragment playfragment = new PlayFragment();
+    public static Fragment playlistfragment = new  PlayListFragment();
+    public static Fragment songsfragment = new SongsFragment();
+    public static Fragment activeFragment =homefragment;
 
 
     // TODO: Rename and change types of parame
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
                 .beginTransaction()
                 .add(R.id.frame_layout,homefragment,"home")
                 .add(R.id.frame_layout,localfragment,"home").hide(localfragment)
-                .add(R.id.frame_layout,playfragment,"home").hide(playfragment)
+//                .add(R.id.frame_layout,playfragment,"home").hide(playfragment)
                 .add(R.id.frame_layout,playlistfragment,"home").hide(playlistfragment)
                 .add(R.id.frame_layout,songsfragment,"home").hide(songsfragment)
                 .commit();
@@ -71,12 +74,22 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
         // adding menu items
         bottomNavigation.add(new MeowBottomNavigation.Model(1, R.drawable.ic_home));
         bottomNavigation.add(new MeowBottomNavigation.Model(2, R.drawable.ic_music));
-        bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_play));
+//        bottomNavigation.add(new MeowBottomNavigation.Model(3, R.drawable.ic_baseline_check_box_outline_blank_24));
         bottomNavigation.add(new MeowBottomNavigation.Model(4, R.drawable.ic_playlistplay));
         bottomNavigation.add(new MeowBottomNavigation.Model(5, R.drawable.ic_local));
+
         setting_btn = findViewById(R.id.setting_btn);
         searchView=findViewById(R.id.searchbtn);
         recview=findViewById(R.id.recview);
+        fav=findViewById(R.id.fav);
+//        fav.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent mIntent=new Intent(MainActivity.this, PlayerActivity.class);
+//                mIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                startActivity(mIntent);
+//            }
+//        });
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
@@ -127,9 +140,6 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
                         break;
                     case 2:
                         fragment = songsfragment;
-                        break;
-                    case 3:
-                        fragment = playfragment;
                         break;
                     case 4:
                         fragment = playlistfragment;
@@ -184,6 +194,13 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Toast.makeText(this, "Press again to exit", Toast.LENGTH_SHORT).show();
+    }
+
+
     private void processsearch(String s) {
         FirebaseRecyclerOptions<model> options =
                 new FirebaseRecyclerOptions.Builder<model>()
@@ -198,22 +215,17 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
 
 
     private void loadFragment(Fragment fragment) {
-        //replacing fragment
-//        if (activeFragment!=null){
+
             getSupportFragmentManager()
                     .beginTransaction()
                     .hide(activeFragment)
                     .show(fragment)
                     .commit();
             activeFragment=fragment;
-//        }else{
-//            getSupportFragmentManager()
-//                    .beginTransaction()
-//                    .replace(R.id.frame_layout,fragment)
-//                    .commit();
-//            activeFragment=fragment;
-//        }
+
     }
+
+
 
 
 
@@ -252,29 +264,5 @@ public class MainActivity extends AppCompatActivity implements  PopupMenu.OnMenu
     }
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

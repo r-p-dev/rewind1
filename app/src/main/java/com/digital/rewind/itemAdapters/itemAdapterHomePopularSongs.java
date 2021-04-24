@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
 import com.digital.rewind.activitys.MainActivity;
-import com.digital.rewind.fragments.PlayFragment;
+import com.digital.rewind.activitys.PlayerActivity;
 import com.digital.rewind.modals.modalSongs;
 import com.squareup.picasso.Picasso;
 
@@ -48,43 +48,26 @@ mContext=context;
 //        holder.ps_imageitem.setImageResource(R.drawable.headphone);
         holder.ps_textitem.setText(ps_itemList.get(position).getSongName());
         holder.pscontainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, "item clicked"+position, Toast.LENGTH_SHORT).show();
-                for (int i=0;i<ps_itemList.size();i++){
+                @Override
+                public void onClick(View view) {
+                    for (int i=0;i<ps_itemList.size();i++){
 
-                    namelist.add(ps_itemList.get(i).getSongName());
-                    linklist.add(ps_itemList.get(i).getSongUrl());
+                        namelist.add(ps_itemList.get(i).getSongName());
+                        linklist.add(ps_itemList.get(i).getSongUrl());
+                    }
+
+                    Intent intent=new Intent(mContext, PlayerActivity.class);
+                    intent.putExtra("namelist", (ArrayList<String>) namelist);
+                    intent.putExtra("linklist", (ArrayList<String>) linklist);
+                    intent.putExtra("position",position);
+                    mContext.startActivity(intent);
+
                 }
-                Fragment pf=new PlayFragment();
-                Bundle b=new Bundle();
-                b.putStringArrayList("namelist", (ArrayList<String>) namelist);
-                b.putStringArrayList("linklist", (ArrayList<String>) linklist);
-                b.putInt("position",position);
-                pf.setArguments(b);
-                loadFragment(pf);
-            }
+
         });
 
     }
 
-    private void loadFragment(Fragment fragment) {
-        //replacing fragment
-
-        ((MainActivity)mContext).getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_layout,fragment)
-//                .hide(((MainActivity)mContext).activeFragment)
-//                .show( fragment)
-                .commit();
-        ((MainActivity)mContext).bottomNavigation.show(3, true);
-        ((MainActivity)mContext).activeFragment= ((MainActivity)mContext).playfragment;
-        ((MainActivity)mContext).activeFragment= ((MainActivity)mContext).localfragment;
-
-
-
-
-    }
 
 
     @Override

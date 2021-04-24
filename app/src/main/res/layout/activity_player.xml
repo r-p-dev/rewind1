@@ -18,37 +18,12 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_baseline_download_24"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginHorizontal="30dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="35dp"
-        android:src="@drawable/ic_baseline_playlist_add_24"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_above="@+id/jcplayer"
-        android:layout_below="@+id/player_songs_top"
         android:layout_alignParentEnd="true"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
@@ -72,7 +47,6 @@
         android:id="@+id/jcplayer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/buttomopt"
         android:layout_marginTop="16dp"
         android:padding="10dp"
         app:layout_constraintBottom_toBottomOf="parent"

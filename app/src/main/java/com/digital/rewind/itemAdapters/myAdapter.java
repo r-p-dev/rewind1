@@ -1,6 +1,7 @@
 package com.digital.rewind.itemAdapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,7 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
 import com.digital.rewind.activitys.MainActivity;
-import com.digital.rewind.fragments.PlayFragment;
+import com.digital.rewind.activitys.PlayerActivity;
+//import com.digital.rewind.fragments.PlayFragment;
 import com.digital.rewind.modals.model;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
@@ -44,41 +46,25 @@ public class myAdapter extends FirebaseRecyclerAdapter<model,myAdapter.myviewhol
         holder.art.setText(model.getSongArtist());
         holder.len.setText(model.getSongDuration());
         holder.searchSocontainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(mContext, "item clicked"+position, Toast.LENGTH_SHORT).show();
-                    namelist.add(model.getSongName());
-                    linklist.add(model.getSongUrl());
-
-                Fragment pf=new PlayFragment();
-                Bundle b=new Bundle();
-                b.putStringArrayList("namelist", (ArrayList<String>) namelist);
-                b.putStringArrayList("linklist", (ArrayList<String>) linklist);
-                b.putInt("position",position);
-                pf.setArguments(b);
-                loadFragment(pf);
-            }
-
-        });
-    }
-
-    private void loadFragment(Fragment fragment) {
-        //replacing fragment
-
-        ((MainActivity)mContext).getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_layout,fragment)
-//                .hide(((MainActivity)mContext).activeFragment)
-//                .show( fragment)
-                .commit();
-        ((MainActivity)mContext).bottomNavigation.show(3, true);
-        ((MainActivity)mContext).activeFragment= ((MainActivity)mContext).playfragment;
-        ((MainActivity)mContext).activeFragment= ((MainActivity)mContext).localfragment;
+                @Override
+                public void onClick(View view) {
+                        namelist.add(model.getSongName());
+                        linklist.add(model.getSongUrl());
 
 
+                    Intent intent=new Intent(mContext, PlayerActivity.class);
+                    Bundle b=new Bundle();
+                    b.putStringArrayList("namelist", (ArrayList<String>) namelist);
+                    b.putStringArrayList("linklist", (ArrayList<String>) linklist);
+                    b.putInt("position",position);
+                    intent.putExtras(b);
+                    mContext.startActivity(intent);
 
+                }
+            });
 
-    }
+        }
+
 
 
     @NonNull

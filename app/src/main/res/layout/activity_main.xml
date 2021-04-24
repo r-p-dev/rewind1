@@ -65,8 +65,6 @@
             android:src="@drawable/ic_setting"/>
     </com.google.android.material.appbar.MaterialToolbar>
 
-
-
     <com.etebarian.meowbottomnavigation.MeowBottomNavigation
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"
@@ -77,6 +75,30 @@
         app:mbn_backgroundBottomColor="@color/material_on_background_disabled"
         app:mbn_circleColor="@android:color/white"
         app:mbn_defaultIconColor="@color/accent"
-        app:mbn_selectedIconColor="@color/primaryText" />
+        app:mbn_selectedIconColor="@color/primaryText" >
+
+    </com.etebarian.meowbottomnavigation.MeowBottomNavigation>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fav"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_baseline_playlist_add_24"
+        android:foreground="@android:color/transparent"
+        android:foregroundTint="@color/accent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_play"
+        android:tintMode="src_atop"
+        app:backgroundTint="#B4006064"
+        app:barrierMargin="5dp"
+        app:elevation="2dp"
+        app:fabSize="auto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.918"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.883"
+        app:useCompatPadding="true" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

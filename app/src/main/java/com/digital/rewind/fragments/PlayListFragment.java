@@ -102,7 +102,7 @@ public class PlayListFragment extends Fragment {
 
 
                 }
-                playlistAdapter = new itemAdapterPlaylist( playlistItemList);
+                playlistAdapter = new itemAdapterPlaylist(getContext(), playlistItemList);
                 playlistRecycler.setAdapter(playlistAdapter);
                 playlistAdapter.notifyDataSetChanged();
             }

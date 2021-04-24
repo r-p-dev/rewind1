@@ -1,12 +1,12 @@
 package com.digital.rewind.modals;
 
-public class ArtistAdp {
+public class modalArtist {
     String ArtistName, ArtistPic;
 
-    public ArtistAdp() {
+    public modalArtist() {
     }
 
-    public ArtistAdp(String artistName, String artistPic) {
+    public modalArtist(String artistName, String artistPic) {
         ArtistName = artistName;
         ArtistPic = artistPic;
     }

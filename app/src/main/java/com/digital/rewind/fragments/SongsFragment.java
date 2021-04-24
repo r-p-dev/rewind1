@@ -104,7 +104,6 @@ public class SongsFragment extends Fragment {
                     modalSongs song = ds.getValue(modalSongs.class);
                     songsItemList.add(song);
 
-
                 }
                 songadapter = new itemAdapterSongs(getContext(), songsItemList);
                 songsRecycler.setAdapter(songadapter);

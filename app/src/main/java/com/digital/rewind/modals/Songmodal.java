@@ -1,15 +1,15 @@
 package com.digital.rewind.modals;
 
-public class SongAdp {
+public class Songmodal {
 
 
     private String songName,songUrl;
     private String imageUrl, songArtist, songDuration;
 
-    public SongAdp() {
+    public Songmodal() {
     }
 
-    public SongAdp(String songName, String songUrl, String imageUrl, String songArtist, String songDuration) {
+    public Songmodal(String songName, String songUrl, String imageUrl, String songArtist, String songDuration) {
         this.songName = songName;
         this.songUrl = songUrl;
         this.imageUrl = imageUrl;

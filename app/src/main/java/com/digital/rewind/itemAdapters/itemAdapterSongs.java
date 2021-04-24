@@ -1,13 +1,18 @@
 package com.digital.rewind.itemAdapters;
 
+import android.Manifest;
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.DownloadListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -15,16 +20,24 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.digital.rewind.R;
 import com.digital.rewind.activitys.MainActivity;
-import com.digital.rewind.fragments.PlayFragment;
+import com.digital.rewind.activitys.PlayerActivity;
 import com.digital.rewind.modals.modalSongs;
 import com.example.jean.jcplayer.model.JcAudio;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -35,6 +48,8 @@ public class itemAdapterSongs extends RecyclerView.Adapter<itemAdapterSongs.View
     private Context mContext;
     List<String>  namelist=new ArrayList<>();
     List<String> linklist=new ArrayList<>();
+    private boolean checkPermission = false;
+
     public itemAdapterSongs(Context context,List<modalSongs> songs_itemList) {
         this.songs_itemList = songs_itemList;
         mContext = context;
@@ -60,52 +75,45 @@ public class itemAdapterSongs extends RecyclerView.Adapter<itemAdapterSongs.View
         holder.songs_song_art_name.setText(songs_itemList.get(position).getSongArtist());
         holder.songs_song_length.setText(songs_itemList.get(position).getSongDuration());
         holder.songitem_item.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    for (int i=0;i<songs_itemList.size();i++){
+
+                        namelist.add(songs_itemList.get(i).getSongName());
+                        linklist.add(songs_itemList.get(i).getSongUrl());
+                    }
+
+                    Intent intent=new Intent(mContext, PlayerActivity.class);
+                    intent.putExtra("namelist", (ArrayList<String>) namelist);
+                    intent.putExtra("linklist", (ArrayList<String>) linklist);
+                    intent.putExtra("position",position);
+                    mContext.startActivity(intent);
+
+                }
+            });
+        holder.songs_song_option.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, "item clicked"+position, Toast.LENGTH_SHORT).show();
-                for (int i=0;i<songs_itemList.size();i++){
-
-                    namelist.add(songs_itemList.get(i).getSongName());
-                    linklist.add(songs_itemList.get(i).getSongUrl());
-                }
-                Fragment pf=new PlayFragment();
-                Bundle b=new Bundle();
-                b.putStringArrayList("namelist", (ArrayList<String>) namelist);
-                b.putStringArrayList("linklist", (ArrayList<String>) linklist);
-                b.putInt("position",position);
-                pf.setArguments(b);
-                loadFragment(pf);
+               if (validatePermision()){
+                   DownloadManager dm= (DownloadManager) mContext.getSystemService(Context.DOWNLOAD_SERVICE);
+                   Uri uri=Uri.parse(songs_itemList.get(position).getSongUrl().toString());
+                   DownloadManager.Request request=new DownloadManager.Request(uri);
+                   request.setTitle("Downloading Song");
+                   request.setDescription(songs_itemList.get(position).getSongName().toString());
+                   request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+                   request.setVisibleInDownloadsUi(false);
+                   File dir=mContext.getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS+"/"+songs_itemList.get(position).getSongName().toString());
+                   request.setDestinationUri(Uri.fromFile(dir));
+                   dm.enqueue(request);
+               }
             }
         });
-//        holder.songs_song_option.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                String name=songs_itemList.get(position).getSongName();
-//                String link=songs_itemList.get(position).getSongUrl();
-//                JcAudio audio=JcAudio.createFromURL(name,link);
-//
-//            }
-//        });
-
-    }
-
-    private void loadFragment(Fragment fragment) {
-        //replacing fragment
-
-        ((MainActivity)mContext).getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.frame_layout,fragment)
-//                .hide(((MainActivity)mContext).activeFragment)
-//                .show( fragment)
-                .commit();
-        ((MainActivity)mContext).bottomNavigation.show(3, true);
-        ((MainActivity)mContext).activeFragment= ((MainActivity)mContext).playfragment;
-        ((MainActivity)mContext).activeFragment= ((MainActivity)mContext).localfragment;
 
 
 
 
     }
+
 
 
     public Bitmap getImage(String url) throws IOException {
@@ -133,7 +141,7 @@ public class itemAdapterSongs extends RecyclerView.Adapter<itemAdapterSongs.View
             songs_song_art_name = itemView.findViewById(R.id.songs_song_art_name);
             songs_song_length = itemView.findViewById(R.id.songs_song_length);
             songitem_item=itemView.findViewById(R.id.songitem_item);
-//            songs_song_option=itemView.findViewById(R.id.songs_song_option_btn);
+            songs_song_option=itemView.findViewById(R.id.songs_song_option_btn);
 
 
 
@@ -142,6 +150,29 @@ public class itemAdapterSongs extends RecyclerView.Adapter<itemAdapterSongs.View
 
 
 
+    }
+    private boolean validatePermision() {
+
+        Dexter.withContext(mContext)
+                .withPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .withListener(new PermissionListener() {
+                    @Override
+                    public void onPermissionGranted(PermissionGrantedResponse response) {
+                        checkPermission = true;
+                    }
+
+                    @Override
+                    public void onPermissionDenied(PermissionDeniedResponse response) {
+                        checkPermission = false;
+                    }
+
+                    @Override
+                    public void onPermissionRationaleShouldBeShown(PermissionRequest permission, PermissionToken token) {
+                        token.continuePermissionRequest();
+                    }
+                }).check();
+
+        return checkPermission;
     }
 
 }

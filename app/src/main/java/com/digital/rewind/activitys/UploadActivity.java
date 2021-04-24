@@ -22,7 +22,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.digital.rewind.R;
-import com.digital.rewind.modals.SongAdp;
+import com.digital.rewind.modals.Songmodal;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -224,7 +224,7 @@ public  void upload_to_Recomended(View view){
     // UPLOAD SONG NAME AND URL TO REALTIME DATABASE
     public void uploadDetailsToDatabase(String songName, String songUrl, String imageUrl, String artistName, String songDuration, String loc){
 
-        SongAdp song = new SongAdp(songName,songUrl,imageUrl,artistName,songDuration);
+        Songmodal song = new Songmodal(songName,songUrl,imageUrl,artistName,songDuration);
         FirebaseDatabase.getInstance().getReference(loc)
                 .push().setValue(song).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

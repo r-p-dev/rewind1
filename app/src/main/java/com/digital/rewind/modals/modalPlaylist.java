@@ -3,10 +3,16 @@ package com.digital.rewind.modals;
 import java.util.List;
 
 public class modalPlaylist {
-    String playlistimage,playlistName,playlistCreator;
+    String playlistimage, playlistName, playlistCreator;
     List<String> songs;
 
     public modalPlaylist() {
+    }
+
+    public modalPlaylist(String playlistimage, String playlistName, String playlistCreator) {
+        this.playlistimage = playlistimage;
+        this.playlistName = playlistName;
+        this.playlistCreator = playlistCreator;
     }
 
     public modalPlaylist(String playlistimage, String playlistName, String playlistCreator, List<String> songs) {
@@ -48,3 +54,4 @@ public class modalPlaylist {
         this.songs = songs;
     }
 }
+
